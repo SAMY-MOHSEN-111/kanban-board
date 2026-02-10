@@ -1,0 +1,14 @@
+<div class="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
+  <h3 class="text-xl font-semibold text-gray-800 mb-4">
+    {{ title() }}
+  </h3>
+
+  <div class="w-full" [style.height]="height()">
+    <canvas
+      baseChart
+      [type]="type()"
+      [data]="data()"
+      [options]="options()"
+    ></canvas>
+  </div>
+</div>
