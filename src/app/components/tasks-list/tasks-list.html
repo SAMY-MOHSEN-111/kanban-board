@@ -8,15 +8,15 @@
     <h2 class="text-xl font-semibold text-gray-800">{{ title() }}</h2>
     <p>{{ tasks().length }} tasks</p>
   </div>
-  <div class="min-h-25 max-h-150 overflow-y-auto space-y-6">
-    <app-task cdkDrag [task]="{title: 'whatever1', status: 'TODO', priority: 'HIGH', description: 'hello world'}"/>
-    <app-task cdkDrag [task]="{title: 'whatever2', status: 'TODO', priority: 'HIGH', description: 'hello world'}"/>
-        @for (task of tasks(); track task.id) {
-          <!--      task component      -->
-        } @empty {
-          <div class="flex items-center justify-center h-25">
-            <p class="text-center text-lg">No tasks yet.</p>
-          </div>
-        }
+  <div class="min-h-25 max-h-150 overflow-y-auto space-y-4">
+    @for (task of tasks(); track task.id) {
+      <app-task cdkDrag class="block" [task]="task">
+        <div *cdkDragPlaceholder class="bg-gray-200 border border-dashed border-gray-400 h-28 rounded-md"></div>
+      </app-task>
+    } @empty {
+      <div class="flex items-center justify-center h-25">
+        <p class="text-center text-lg">No tasks yet.</p>
+      </div>
+    }
   </div>
 </div>

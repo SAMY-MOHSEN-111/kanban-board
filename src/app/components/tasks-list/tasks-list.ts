@@ -1,5 +1,5 @@
 import {Component, input, output} from '@angular/core';
-import {CdkDrag, CdkDragDrop, CdkDropList} from '@angular/cdk/drag-drop';
+import {CdkDrag, CdkDragDrop, CdkDragPlaceholder, CdkDropList} from '@angular/cdk/drag-drop';
 import {Task} from '../task/task';
 
 @Component({
@@ -7,7 +7,8 @@ import {Task} from '../task/task';
   imports: [
     CdkDropList,
     Task,
-    CdkDrag
+    CdkDrag,
+    CdkDragPlaceholder
   ],
   templateUrl: './tasks-list.html',
   styleUrl: './tasks-list.css',
