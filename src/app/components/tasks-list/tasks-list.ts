@@ -1,13 +1,13 @@
 import {Component, input, output} from '@angular/core';
-import {CdkDragDrop, CdkDragPlaceholder, CdkDropList} from '@angular/cdk/drag-drop';
+import {CdkDrag, CdkDragDrop, CdkDropList} from '@angular/cdk/drag-drop';
 import {Task} from '../task/task';
 
 @Component({
   selector: 'app-tasks-list',
   imports: [
     CdkDropList,
-    CdkDragPlaceholder,
-    Task
+    Task,
+    CdkDrag
   ],
   templateUrl: './tasks-list.html',
   styleUrl: './tasks-list.css',
