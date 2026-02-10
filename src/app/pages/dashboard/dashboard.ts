@@ -19,7 +19,7 @@ export class Dashboard {
     plugins: {
       legend: {
         display: true,
-        position: 'top',
+        position: 'bottom',
       },
       title: {
         display: true,
@@ -51,7 +51,7 @@ export class Dashboard {
       },
       title: {
         display: true,
-        text: 'Tasks Trend Over Time'
+        text: 'Created Tasks Trend Over Time'
       }
     },
     scales: {

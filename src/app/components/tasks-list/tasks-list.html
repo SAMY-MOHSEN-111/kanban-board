@@ -1,0 +1,22 @@
+<div
+  cdkDropList
+  [cdkDropListData]="tasks()"
+  (cdkDropListDropped)="drop($event)"
+  class="bg-gray-100 p-4 rounded-lg shadow-md space-y-4 outline-2 outline-dashed outline-black/20"
+>
+  <div class="flex items-center justify-between">
+    <h2 class="text-xl font-semibold text-gray-800">{{ title() }}</h2>
+    <p>{{ tasks().length }} tasks</p>
+  </div>
+  <div class="min-h-25 max-h-150 space-y-2 overflow-y-auto">
+    <app-task [task]=""></app-task>
+    @for (task of tasks(); track task.id) {
+      <!--      task component      -->
+    } @empty {
+      <div class="flex items-center justify-center h-25">
+        <p class="text-center text-lg">No tasks yet.</p>
+      </div>
+    }
+    <div *cdkDragPlaceholder class="bg-gray-200 border border-dashed border-gray-400 h-16 rounded-md"></div>
+  </div>
+</div>
