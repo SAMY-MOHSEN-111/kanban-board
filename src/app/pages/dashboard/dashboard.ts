@@ -1,8 +1,8 @@
-import {Component, computed, inject} from '@angular/core';
-import {StatCard} from '../../components/stat-card/stat-card';
-import {ChartCard} from '../../components/chart-card/chart-card';
-import {ChartConfiguration, ChartData, ChartOptions, ScaleOptionsByType} from 'chart.js';
-import {TasksService} from '../../services/tasks-service';
+import {Component, computed, inject, OnInit} from '@angular/core';
+import {StatCard} from '@app/components/stat-card/stat-card';
+import {ChartCard} from '@app/components/chart-card/chart-card';
+import {ChartConfiguration, ChartData, ChartOptions} from 'chart.js';
+import {TasksService} from '@app/services/tasks-service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,11 +15,11 @@ import {TasksService} from '../../services/tasks-service';
 })
 export class Dashboard {
   readonly #tasksService = inject(TasksService);
-  total = computed(() => this.#tasksService.taskStats().total);
-  todo = computed(() => this.#tasksService.taskStats().todo);
-  inProgress = computed(() => this.#tasksService.taskStats().inProgress);
-  done = computed(() => this.#tasksService.taskStats().done);
 
+  total = computed(() => this.#tasksService.tasksStats().total);
+  todo = computed(() => this.#tasksService.tasksStats().todo);
+  inProgress = computed(() => this.#tasksService.tasksStats().inProgress);
+  done = computed(() => this.#tasksService.tasksStats().done);
 
   pieChartOptions: ChartOptions<'pie'> = {
     responsive: true,
@@ -77,7 +77,7 @@ export class Dashboard {
   };
 
   lineChartData = computed<ChartData<'line'>>(() => {
-    const { labels, numberOfEntries } = this.#tasksService.tasksOverTimeChartData();
+    const {labels, numberOfEntries} = this.#tasksService.tasksOverTimeChartData();
 
     return {
       labels: labels || [],

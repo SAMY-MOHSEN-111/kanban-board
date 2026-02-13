@@ -115,7 +115,7 @@ Build a modern Angular dashboard application using the latest Angular Signals pa
 // Test 2: Visual feedback
 ✓ Drag placeholder shows where task will land
 ✓ Hover state on drop zones
-✓ Smooth animations during drag/drop
+❌ Smooth animations during drag/drop
 
 // Test 3: State management
 ✓ Status change persists (via signal updates)
@@ -317,7 +317,7 @@ bootstrapApplication(AppComponent, {
 - Task due dates
 - Task assignment to users
 - Export tasks to JSON/CSV
-- Unit tests (vitest)
+- ❌ Unit tests (vitest)
 - E2E tests (Playwright)
 
 ---

@@ -9,8 +9,23 @@
     </div>
   </div>
   <div class="px-6 grid grid-cols-1 lg:grid-cols-2  xl:grid-cols-3 gap-6" cdkDropListGroup>
-    <app-tasks-list title="TODO" [tasks]="tasksService.todoTasks()"/>
-    <app-tasks-list title="In Progress" [tasks]="tasksService.inProgressTasks()"/>
-    <app-tasks-list title="Done" [tasks]="tasksService.doneTasks()"/>
+    <app-tasks-list
+      [id]="TaskStatus.TODO"
+      title="TODO"
+      [tasks]="tasksService.todoTasks()"
+      (taskDropped)="onTaskDropped($event)"
+    />
+    <app-tasks-list
+      [id]="TaskStatus.IN_PROGRESS"
+      title="In Progress"
+      [tasks]="tasksService.inProgressTasks()"
+      (taskDropped)="onTaskDropped($event)"
+    />
+    <app-tasks-list
+      [id]="TaskStatus.DONE"
+      title="Done"
+      [tasks]="tasksService.doneTasks()"
+      (taskDropped)="onTaskDropped($event)"
+    />
   </div>
 </div>

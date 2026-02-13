@@ -8,7 +8,8 @@ import {
   transferArrayItem
 } from '@angular/cdk/drag-drop';
 import {Task as TaskComponent} from '../task/task' ;
-import {Task} from '@app/models/task.model';
+import {Task, TaskStatus} from '@app/models/task.model';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-tasks-list',
@@ -16,15 +17,17 @@ import {Task} from '@app/models/task.model';
     CdkDropList,
     TaskComponent,
     CdkDrag,
-    CdkDragPlaceholder
+    CdkDragPlaceholder,
+    NgClass
   ],
   templateUrl: './tasks-list.html',
   styleUrl: './tasks-list.css',
 })
 export class TasksList {
+  id = input.required<TaskStatus>();
   title = input.required<string>();
   tasks = input.required<Task[]>();
-  taskDropped = output<CdkDragDrop<Task[]>>();
+  taskDropped = output<CdkDragDrop<Task[], Task[], Task>>();
   isDraggingOver = signal(true);
 
   onDragEntered() {
@@ -35,7 +38,7 @@ export class TasksList {
     this.isDraggingOver.set(true);
   }
 
-  drop(event: CdkDragDrop<Task[]>) {
+  drop(event: CdkDragDrop<Task[], Task[], Task>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(this.tasks(), event.previousIndex, event.currentIndex);
     } else {
@@ -46,5 +49,6 @@ export class TasksList {
         event.currentIndex,
       );
     }
+    this.taskDropped.emit(event);
   }
 }
