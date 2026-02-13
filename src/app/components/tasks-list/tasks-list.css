@@ -14,3 +14,7 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background-color: rgba(0, 0, 0, 0.3);
 }
+
+.cdk-drag-animating {
+  transition: transform 300ms cubic-bezier(0.25, 1, 0.5, 1);
+}

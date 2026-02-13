@@ -1,6 +1,6 @@
 import {Component, computed, input} from '@angular/core';
 import {NgClass, UpperCasePipe} from '@angular/common';
-import {TaskPriority, TaskStatus} from '@app/models/task.model';
+import {TaskPriority} from '@app/models/task.model';
 import {RemoveNonAlphanumericPipe} from '@app/pipes/remove-non-alphanumeric-pipe';
 
 @Component({
