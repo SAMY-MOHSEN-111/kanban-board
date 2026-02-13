@@ -1,7 +1,8 @@
-import {Component, computed} from '@angular/core';
+import {Component, computed, inject} from '@angular/core';
 import {StatCard} from '../../components/stat-card/stat-card';
 import {ChartCard} from '../../components/chart-card/chart-card';
 import {ChartConfiguration, ChartData, ChartOptions, ScaleOptionsByType} from 'chart.js';
+import {TasksService} from '../../services/tasks-service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,6 +14,13 @@ import {ChartConfiguration, ChartData, ChartOptions, ScaleOptionsByType} from 'c
   styleUrl: './dashboard.css',
 })
 export class Dashboard {
+  readonly #tasksService = inject(TasksService);
+  total = computed(() => this.#tasksService.taskStats().total);
+  todo = computed(() => this.#tasksService.taskStats().todo);
+  inProgress = computed(() => this.#tasksService.taskStats().inProgress);
+  done = computed(() => this.#tasksService.taskStats().done);
+
+
   pieChartOptions: ChartOptions<'pie'> = {
     responsive: true,
     maintainAspectRatio: false,
@@ -33,7 +41,7 @@ export class Dashboard {
       labels: ['To Do', 'In Progress', 'Done'],
       datasets: [
         {
-          data: [10, 12, 20],
+          data: [this.todo(), this.inProgress(), this.done()],
           backgroundColor: ['#ef4444', '#f59e0b', '#22c55e'],
         },
       ],
@@ -51,14 +59,13 @@ export class Dashboard {
       },
       title: {
         display: true,
-        text: 'Created Tasks Trend Over Time'
+        text: 'Created Tasks (Last 7 Days)'
       }
     },
     scales: {
       x: {
         type: 'category',
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-      } as ScaleOptionsByType<'category'>,
+      },
       y: {
         beginAtZero: true,
         title: {
@@ -70,13 +77,13 @@ export class Dashboard {
   };
 
   lineChartData = computed<ChartData<'line'>>(() => {
-    const xScales = this.lineChartOptions.scales?.['x'] as ScaleOptionsByType<'category'> | undefined;
-    const labels = xScales?.labels as string[] | undefined;
+    const { labels, numberOfEntries } = this.#tasksService.tasksOverTimeChartData();
+
     return {
       labels: labels || [],
       datasets: [
         {
-          data: [65, 59, 80, 81, 56, 55, 100],
+          data: numberOfEntries,
           label: 'Tasks Created',
           fill: true,
           tension: 0.3,

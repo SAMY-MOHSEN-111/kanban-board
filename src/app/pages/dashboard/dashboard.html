@@ -2,10 +2,10 @@
   <div class="p-6 space-y-6">
     <h1 class="text-3xl font-extrabold text-gray-900 ">Dashboard Overview</h1>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <app-stat-card title="Total Tasks" cardColor="text-blue-600" [numberOfTasks]="10"></app-stat-card>
-      <app-stat-card title="Todo" cardColor="text-red-500" [numberOfTasks]="10"></app-stat-card>
-      <app-stat-card title="In Progress" cardColor="text-yellow-500" [numberOfTasks]="10"></app-stat-card>
-      <app-stat-card title="Done" cardColor="text-green-600" [numberOfTasks]="10"></app-stat-card>
+      <app-stat-card title="Total Tasks" cardColor="text-blue-600" [numberOfTasks]="total()"></app-stat-card>
+      <app-stat-card title="Todo" cardColor="text-red-500" [numberOfTasks]="todo()"></app-stat-card>
+      <app-stat-card title="In Progress" cardColor="text-yellow-500" [numberOfTasks]="inProgress()"></app-stat-card>
+      <app-stat-card title="Done" cardColor="text-green-600" [numberOfTasks]="done()"></app-stat-card>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
