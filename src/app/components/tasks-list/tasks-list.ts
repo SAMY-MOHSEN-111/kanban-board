@@ -1,4 +1,4 @@
-import {Component, input, output} from '@angular/core';
+import {Component, input, output, signal} from '@angular/core';
 import {
   CdkDrag,
   CdkDragDrop,
@@ -25,6 +25,15 @@ export class TasksList {
   title = input.required<string>();
   tasks = input.required<Task[]>();
   taskDropped = output<CdkDragDrop<Task[]>>();
+  isDraggingOver = signal(true);
+
+  onDragEntered() {
+    this.isDraggingOver.set(false);
+  }
+
+  onDragExited() {
+    this.isDraggingOver.set(true);
+  }
 
   drop(event: CdkDragDrop<Task[]>) {
     if (event.previousContainer === event.container) {

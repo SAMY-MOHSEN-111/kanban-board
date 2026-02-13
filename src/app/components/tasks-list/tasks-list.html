@@ -1,22 +1,28 @@
-<div
-  cdkDropList
-  [cdkDropListData]="tasks()"
-  (cdkDropListDropped)="drop($event)"
-  class="bg-gray-100 p-4 rounded-lg shadow-md space-y-4 outline-2 outline-dashed outline-black/20"
->
+<div class="bg-gray-100 p-4 rounded-lg shadow-md space-y-4">
   <div class="flex items-center justify-between">
     <h2 class="text-xl font-semibold text-gray-800">{{ title() }}</h2>
     <p>{{ tasks().length }} tasks</p>
   </div>
-  <div class="min-h-25 max-h-150 overflow-y-auto space-y-4">
-    @for (task of tasks(); track task.id) {
-      <app-task cdkDrag class="block" [task]="task">
-        <div *cdkDragPlaceholder class="bg-gray-200 border border-dashed border-gray-400 h-28 rounded-md"></div>
-      </app-task>
-    } @empty {
-      <div class="flex items-center justify-center h-25">
-        <p class="text-center text-lg">No tasks yet.</p>
-      </div>
-    }
+  <div class="relative flex-1 min-h-0">
+    <div class="absolute inset-y-0 left-0 right-2.5 border-2 border-dashed border-black/20 rounded-lg pointer-events-none z-10"></div>
+    <div
+      cdkDropList
+      [cdkDropListData]="tasks()"
+      (cdkDropListDropped)="drop($event)"
+      (cdkDropListEntered)="onDragEntered()"
+      (cdkDropListExited)="onDragExited()"
+      class="custom-scrollbar min-h-25 p-2 pr-4.5 rounded-lg max-h-150 overflow-y-auto space-y-4">
+      @for (task of tasks(); track task.id) {
+        <app-task cdkDrag class="block" [task]="task">
+          <div *cdkDragPlaceholder class="bg-gray-200 border border-dashed border-gray-400 h-28 rounded-md"></div>
+        </app-task>
+      } @empty {
+        @if (isDraggingOver()) {
+          <div class="flex items-center justify-center h-25">
+            <p class="text-center text-lg">No tasks yet.</p>
+          </div>
+        }
+      }
+    </div>
   </div>
 </div>
