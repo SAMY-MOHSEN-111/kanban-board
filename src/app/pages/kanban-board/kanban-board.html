@@ -1,4 +1,4 @@
-<div class="container mx-auto space-y-6">
+<div class="container mx-auto">
   <div class="flex items-center justify-between p-6">
     <div class=" space-y-2">
       <h1 class="text-3xl font-extrabold text-gray-900 ">Tasks Board</h1>
@@ -8,7 +8,7 @@
       <button>Add Task</button>
     </div>
   </div>
-  <div class="px-6 grid grid-cols-1 lg:grid-cols-2  xl:grid-cols-3 gap-6" cdkDropListGroup>
+  <div class="p-6 grid grid-cols-1 lg:grid-cols-2  xl:grid-cols-3 gap-6" cdkDropListGroup>
     <app-tasks-list
       [id]="TaskStatus.TODO"
       title="TODO"
