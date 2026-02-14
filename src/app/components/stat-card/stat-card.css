@@ -1,0 +1,15 @@
+/* I asked gemini to create this for me */
+.stat-number {
+  transition: --num 0.8s ease-out;
+  counter-reset: num var(--num);
+}
+
+.stat-number::after {
+  content: counter(num);
+}
+
+@property --num {
+  syntax: '<integer>';
+  initial-value: 0;
+  inherits: false;
+}

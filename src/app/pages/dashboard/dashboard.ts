@@ -16,6 +16,10 @@ import {TasksService} from '@app/services/tasks-service';
 export class Dashboard {
   readonly #tasksService = inject(TasksService);
 
+  constructor() {
+    this.#tasksService.refresh();
+  }
+
   total = computed(() => this.#tasksService.tasksStats().total);
   todo = computed(() => this.#tasksService.tasksStats().todo);
   inProgress = computed(() => this.#tasksService.tasksStats().inProgress);
