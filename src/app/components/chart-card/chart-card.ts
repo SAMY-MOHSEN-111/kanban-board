@@ -1,4 +1,4 @@
-import {Component, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {ChartConfiguration, ChartType} from 'chart.js';
 import {BaseChartDirective} from 'ng2-charts';
 
@@ -9,6 +9,7 @@ import {BaseChartDirective} from 'ng2-charts';
   ],
   templateUrl: './chart-card.html',
   styleUrl: './chart-card.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChartCard {
   title = input.required<string>();

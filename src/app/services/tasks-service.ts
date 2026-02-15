@@ -2,15 +2,15 @@ import {computed, DestroyRef, inject, Injectable} from '@angular/core';
 import {Task, TaskStatus} from '../models/task.model';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {TasksRepository} from '@app/repositories/tasks.repository';
-import {BehaviorSubject, switchMap} from 'rxjs';
+import {Subject, switchMap} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class TasksService {
   readonly #destroyRef = inject(DestroyRef);
   readonly #tasksRepository = inject(TasksRepository);
-  readonly #refresh$ = new BehaviorSubject<void>(undefined);
+  readonly #load$ = new Subject<void>();
 
-  tasks = toSignal(this.#refresh$.pipe(switchMap(() => this.#tasksRepository.getAll())), {initialValue: []});
+  tasks = toSignal(this.#load$.pipe(switchMap(() => this.#tasksRepository.getAll())), {initialValue: []});
   todoTasks = computed(() => this.tasks().filter((task) => task.status === TaskStatus.TODO));
   inProgressTasks = computed(() => this.tasks().filter((task) => task.status === TaskStatus.IN_PROGRESS));
   doneTasks = computed(() => this.tasks().filter((task) => task.status === TaskStatus.DONE));
@@ -32,8 +32,8 @@ export class TasksService {
     return {labels, numberOfEntries};
   });
 
-  refresh() {
-    this.#refresh$.next();
+  load() {
+    this.#load$.next();
   }
 
   getTaskById(taskId: string) {

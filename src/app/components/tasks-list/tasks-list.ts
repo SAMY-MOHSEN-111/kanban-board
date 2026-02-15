@@ -1,4 +1,4 @@
-import {Component, input, output, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input, output, signal} from '@angular/core';
 import {
   CdkDrag,
   CdkDragDrop,
@@ -9,7 +9,6 @@ import {
 } from '@angular/cdk/drag-drop';
 import {Task as TaskComponent} from '../task/task' ;
 import {Task, TaskStatus} from '@app/models/task.model';
-import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-tasks-list',
@@ -18,10 +17,10 @@ import {NgClass} from '@angular/common';
     TaskComponent,
     CdkDrag,
     CdkDragPlaceholder,
-    NgClass
   ],
   templateUrl: './tasks-list.html',
   styleUrl: './tasks-list.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TasksList {
   id = input.required<TaskStatus>();

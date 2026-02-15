@@ -1,4 +1,6 @@
-/* I asked gemini to create this for me */
+/* I asked gemini to help me create an animation for counting from 0 to number using css   */
+/* Then I was socked knowing css has variables that could have type and initial value      */
+/* Now I wonder how many times did we write logic using js/ts that we could make with css? */
 .stat-number {
   transition: --num 0.8s ease-out;
   counter-reset: num var(--num);

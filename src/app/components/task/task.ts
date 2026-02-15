@@ -1,4 +1,4 @@
-import {Component, computed, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, input} from '@angular/core';
 import {NgClass, UpperCasePipe} from '@angular/common';
 import {TaskPriority} from '@app/models/task.model';
 import {RemoveNonAlphanumericPipe} from '@app/pipes/remove-non-alphanumeric-pipe';
@@ -12,6 +12,7 @@ import {RemoveNonAlphanumericPipe} from '@app/pipes/remove-non-alphanumeric-pipe
   ],
   templateUrl: './task.html',
   styleUrl: './task.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Task {
   task = input.required<any>();

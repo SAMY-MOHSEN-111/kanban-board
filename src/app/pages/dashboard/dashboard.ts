@@ -1,4 +1,4 @@
-import {Component, computed, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, OnInit} from '@angular/core';
 import {StatCard} from '@app/components/stat-card/stat-card';
 import {ChartCard} from '@app/components/chart-card/chart-card';
 import {ChartConfiguration, ChartData, ChartOptions} from 'chart.js';
@@ -12,12 +12,13 @@ import {TasksService} from '@app/services/tasks-service';
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class Dashboard {
+export class Dashboard implements OnInit {
   readonly #tasksService = inject(TasksService);
 
-  constructor() {
-    this.#tasksService.refresh();
+  ngOnInit() {
+    this.#tasksService.load();
   }
 
   total = computed(() => this.#tasksService.tasksStats().total);

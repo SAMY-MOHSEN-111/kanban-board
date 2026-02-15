@@ -1,4 +1,4 @@
-import {Component, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {NgClass, NgStyle} from '@angular/common';
 
 @Component({
@@ -8,6 +8,7 @@ import {NgClass, NgStyle} from '@angular/common';
   ],
   templateUrl: './stat-card.html',
   styleUrl: './stat-card.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StatCard {
   title  = input.required<string>();
