@@ -74,7 +74,7 @@
       </div>
 
       <div class="space-y-1">
-        <label for="assignee" class="block text-sm font-semibold text-gray-700">Assignee</label>
+        <label for="assignee" class="block text-sm font-semibold text-gray-700">Assignee <span class="text-red-500">*</span></label>
         <select
           id="assignee"
           [formControl]="taskForm.controls.assignee"
@@ -84,6 +84,9 @@
             <option [value]="assignee.id">{{ assignee.name }}</option>
           }
         </select>
+        @if (taskForm.controls.assignee.invalid && (taskForm.controls.assignee.touched || taskForm.controls.assignee.dirty)) {
+          <p class="text-xs text-red-500 mt-1">Assignee is required.</p>
+        }
       </div>
 
       <div class="space-y-1">

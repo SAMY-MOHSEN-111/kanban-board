@@ -8,24 +8,24 @@
       "priority": "high",
       "dueDate": "2026-02-09",
       "assignee": {
-        "id": "user-001",
-        "name": "John Doe",
-        "avatar": "JD",
-        "email": "john.doe@company.com",
-        "role": "Developer"
+        "id": "user-004",
+        "name": "Emily Davis",
+        "avatar": "ED",
+        "email": "emily.davis@company.com",
+        "role": "QA Engineer"
       },
       "tags": [
         "Design",
         "Frontend"
       ],
       "createdAt": "2026-02-05T20:49:43.760Z",
-      "updatedAt": "2026-02-07T20:49:43.760Z"
+      "updatedAt": "2026-02-15T22:03:47.046Z"
     },
     {
       "id": "task-002",
       "title": "Update documentation",
       "description": "Review and update API documentation for v2.0 release",
-      "status": "in_progress",
+      "status": "done",
       "priority": "medium",
       "dueDate": "2026-02-28",
       "assignee": {
@@ -262,7 +262,7 @@
       "description": "Configured GitHub Actions for automated testing and deployment",
       "status": "in_progress",
       "priority": "medium",
-      "dueDate": "2026-02-05",
+      "dueDate": "2026-02-16",
       "completedAt": "2026-02-06T20:49:43.760Z",
       "assignee": {
         "id": "user-001",
@@ -276,7 +276,7 @@
         "Infrastructure"
       ],
       "createdAt": "2026-01-29T20:49:43.760Z",
-      "updatedAt": "2026-02-06T20:49:43.760Z"
+      "updatedAt": "2026-02-15T22:18:03.932Z"
     },
     {
       "id": "task-011",
@@ -365,6 +365,23 @@
       ],
       "createdAt": "2026-01-24T20:49:43.760Z",
       "updatedAt": "2026-02-02T20:49:43.760Z"
+    },
+    {
+      "id": "e42d5863-1e83-4381-b05d-e2f0f852ed75",
+      "title": "test1 ",
+      "description": "test1",
+      "status": "in_progress",
+      "priority": "low",
+      "dueDate": "2026-02-15",
+      "assignee": {
+        "id": "user-001",
+        "name": "John Doe",
+        "avatar": "JD",
+        "email": "john.doe@company.com",
+        "role": "Developer"
+      },
+      "createdAt": "2026-02-15T21:41:10.774Z",
+      "updatedAt": "2026-02-15T21:42:17.932Z"
     }
   ],
   "statistics": [

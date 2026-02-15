@@ -12,4 +12,8 @@ export class AssigneesRepository {
   getAll(): Observable<Assignee[]> {
     return this.#httpClient.get<Assignee[]>(this.#apiUrl);
   }
+
+  getAssigneeById(id: string) {
+    return this.#httpClient.get<Assignee>(`${this.#apiUrl}/${id}`);
+  }
 }

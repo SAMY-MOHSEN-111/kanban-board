@@ -2,13 +2,15 @@ import {ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit
 import {TasksList} from '@app/components/tasks-list/tasks-list';
 import {CdkDragDrop, CdkDropListGroup} from '@angular/cdk/drag-drop';
 import {TasksService} from '@app/services/tasks.service';
-import {Task, TaskStatus} from '@app/models/task.model';
+import {Task, TaskPriority, TaskStatus} from '@app/models/task.model';
 import {TaskForm} from '@app/components/task-form/task-form';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {NgIcon, provideIcons} from '@ng-icons/core';
 import {heroPlus} from '@ng-icons/heroicons/outline';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {debounceTime, distinctUntilChanged} from 'rxjs';
+import {debounceTime, distinctUntilChanged, firstValueFrom} from 'rxjs';
+import {TaskSaveEvent} from '@app/types/task-form.type';
+import {AssigneesService} from '@app/services/assignees.service';
 
 @Component({
   selector: 'app-kanban-board',
@@ -26,32 +28,60 @@ import {debounceTime, distinctUntilChanged} from 'rxjs';
 })
 export class KanbanBoard implements OnInit {
   readonly #destroyRef = inject(DestroyRef);
-  readonly tasksService = inject(TasksService);
+  readonly #tasksService = inject(TasksService);
+  readonly #assigneesService = inject(AssigneesService);
 
   searchControl = new FormControl("", {nonNullable: true});
   searchTerm = toSignal(this.searchControl.valueChanges.pipe(debounceTime(200), distinctUntilChanged()), {initialValue: ""});
 
-  filteredTasks = computed<Task[]>(() => this.tasksService.tasks().filter(task => this.#taskMatches(task)));
+  assigneeControl = new FormControl("", {nonNullable: true});
+  assignee = toSignal(this.assigneeControl.valueChanges, { initialValue: "" });
+
+  priorityControl = new FormControl("", {nonNullable: true});
+  priority = toSignal(this.priorityControl.valueChanges, { initialValue: "" });
+
+  statusControl = new FormControl("", {nonNullable: true});
+  status = toSignal(this.statusControl.valueChanges, { initialValue: "" });
+
+  filteredTasks = computed<Task[]>(() => this.#tasksService.tasks().filter(task => this.#taskMatches(task)));
   todoTasks = computed<Task[]>(() => this.filteredTasks().filter(task => task.status === TaskStatus.TODO));
   inProgressTasks = computed<Task[]>(() => this.filteredTasks().filter(task => task.status === TaskStatus.IN_PROGRESS));
   doneTasks = computed<Task[]>(() => this.filteredTasks().filter(task => task.status === TaskStatus.DONE));
+
+  assignees = computed(() => this.#assigneesService.assignees());
 
   showForm = signal(false);
   selectedTask = signal<Task | null>(null);
 
   ngOnInit(): void {
-    this.tasksService.load();
+    this.#tasksService.load();
   }
 
   #taskMatches(task: Task): boolean {
-    return task.title.toLowerCase().includes(this.searchTerm()) || task.description?.toLowerCase().includes(this.searchTerm());
+    const search = this.searchTerm().toLowerCase();
+    const assignee = this.assignee();
+    const priority = this.priority();
+    const status = this.status();
+
+    const matchesSearch = task.title.toLowerCase().includes(search) || task.description?.toLowerCase().includes(search);
+    const matchesAssignee = !assignee || task.assignee.id === assignee;
+    const matchesPriority = !priority || task.priority === priority;
+    const matchesStatus = !status || task.status === status;
+
+    return (
+      matchesSearch &&
+      matchesAssignee &&
+      matchesPriority &&
+      matchesStatus
+    );
   }
+
 
   onTaskDropped($event: CdkDragDrop<Task[], Task[], Task>) {
     const task = $event.item.data;
     const containerId = $event.container.id;
     task.status = containerId as TaskStatus;
-    this.tasksService.updateTask(task.id, task)
+    this.#tasksService.updateTask(task.id, task)
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe();
   }
@@ -68,42 +98,52 @@ export class KanbanBoard implements OnInit {
 
   onDeleteTask(task: Task) {
     if (!confirm(`Are you sure you want to delete "${task.title}"?`)) return;
-    const tasksSnapshot = this.tasksService.tasks();
-    this.tasksService.tasks.update(tasks => tasks.filter(t => t.id !== task.id));
-    this.tasksService.deleteTask(task.id)
+    const tasksSnapshot = this.#tasksService.tasks();
+    this.#tasksService.tasks.update(tasks => tasks.filter(t => t.id !== task.id));
+    this.#tasksService.deleteTask(task.id)
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe({
-        error: () => this.tasksService.tasks.set(tasksSnapshot),
+        error: () => this.#tasksService.tasks.set(tasksSnapshot),
       });
   }
 
-  onSaveTask(taskData: Partial<Task>) {
+  async onSaveTask(event: TaskSaveEvent) {
+    const {assigneeId, taskData} = event;
     const currentTask = this.selectedTask();
-    const now = new Date().toISOString();
-    const tasksSnapshot = this.tasksService.tasks();
+    const tasksSnapshot = this.#tasksService.tasks();
+
+    const assignee = await firstValueFrom(this.#assigneesService.getAssigneeById(assigneeId));
+    this.showForm.set(false);
 
     if (currentTask) {
-      this.tasksService.tasks.update(tasks => tasks.map(task =>
-        task.id === currentTask.id ? {...task, ...taskData, updatedAt: now} : task));
-
-      this.tasksService.updateTask(currentTask.id, {...taskData, updatedAt: now})
-        .pipe(takeUntilDestroyed(this.#destroyRef))
-        .subscribe({
-          error: () => this.tasksService.tasks.set(tasksSnapshot)
-        });
+      this.#updateExistingTask(currentTask, taskData, assignee, tasksSnapshot);
     } else {
-      const id = crypto.randomUUID();
-      const tempTask: Task = {id, ...taskData, createdAt: now, updatedAt: now} as Task;
-      this.tasksService.tasks.update(tasks => [tempTask, ...tasks]);
-      this.tasksService.createTask(tempTask)
-        .pipe(takeUntilDestroyed(this.#destroyRef))
-        .subscribe({
-          next: (createdTask) => this.tasksService.tasks.update(tasks => tasks.map(task => task.id === id ? createdTask : task)),
-          error: () => this.tasksService.tasks.set(tasksSnapshot)
-        });
+      this.#createNewTask(taskData, assignee, tasksSnapshot);
     }
+  }
 
-    this.showForm.set(false);
+  #updateExistingTask(current: Task, data: any, assignee: any, snapshot: Task[]) {
+    const now = new Date().toISOString();
+    const updatedTask = {...current, ...data, assignee, updatedAt: now};
+    this.#tasksService.tasks.update(tasks => tasks.map(task => task.id === current.id ? updatedTask : task));
+    this.#tasksService.updateTask(current.id, updatedTask)
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe({
+        error: () => this.#tasksService.tasks.set(snapshot)
+      });
+  }
+
+  #createNewTask(data: any, assignee: any, snapshot: Task[]) {
+    const now = new Date().toISOString();
+    const tempId = crypto.randomUUID();
+    const newTask: Task = {...data, id: tempId, assignee, createdAt: now, updatedAt: now};
+    this.#tasksService.tasks.update(tasks => [newTask, ...tasks]);
+    this.#tasksService.createTask(newTask)
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe({
+        next: (serverTask) => this.#tasksService.tasks.update(tasks => tasks.map(task => task.id === tempId ? serverTask : task)),
+        error: () => this.#tasksService.tasks.set(snapshot)
+      });
   }
 
   onCancelForm() {
@@ -111,4 +151,5 @@ export class KanbanBoard implements OnInit {
   }
 
   protected readonly TaskStatus = TaskStatus;
+  protected readonly TaskPriority = TaskPriority;
 }

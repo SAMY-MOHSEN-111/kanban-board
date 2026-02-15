@@ -1,6 +1,6 @@
 <div
   (click)="onEdit()"
-  class="group bg-white p-4 rounded-lg shadow-md space-y-2 min-h-36 hover:shadow-lg transition-shadow cursor-pointer"
+  class="group bg-white p-4 rounded-lg shadow-md space-y-2 min-h-46.25 hover:shadow-lg transition-shadow cursor-pointer"
 >
   <div>
     <div class="flex items-center justify-between">
@@ -24,5 +24,12 @@
     </div>
   </div>
   <p class="text-gray-600 line-clamp-2">{{ task().description }}</p>
+
+  <div class="flex items-center space-x-2">
+    <div class="w-8 h-8 bg-purple-200 rounded-full flex items-center justify-center font-bold text-sm text-gray-600">
+      {{ task().assignee.avatar }}
+    </div>
+    <span class="font-medium">{{ task().assignee.name }}</span>
+  </div>
   <ng-content select="ng-template[cdkDragPlaceholder]"></ng-content>
 </div>

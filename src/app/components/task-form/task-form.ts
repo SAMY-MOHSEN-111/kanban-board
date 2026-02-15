@@ -5,6 +5,7 @@ import {NgClass} from '@angular/common';
 import {NgIcon, provideIcons} from '@ng-icons/core';
 import {heroXMarkSolid} from '@ng-icons/heroicons/solid';
 import {AssigneesService} from '@app/services/assignees.service';
+import {TaskSaveEvent} from '@app/types/task-form.type';
 
 @Component({
   selector: 'app-task-form',
@@ -20,7 +21,7 @@ export class TaskForm implements OnInit {
   readonly assigneesService = inject(AssigneesService);
 
   task = input<Task | null>(null);
-  save = output<Partial<Task>>();
+  save = output<TaskSaveEvent>();
   cancel = output<void>();
 
   taskForm = this.#fb.group({
@@ -28,20 +29,27 @@ export class TaskForm implements OnInit {
     description: ['', [Validators.maxLength(500)]],
     status: [TaskStatus.TODO, [Validators.required]],
     priority: [TaskPriority.LOW, [Validators.required]],
-    assignee: [this.task()?.assignee?.name ?? this.assigneesService.assignees().at(0)?.name, [Validators.required]],
+    assignee: ['', [Validators.required]],
     dueDate: [new Date().toISOString().split('T')[0], [Validators.required]]
   });
 
   ngOnInit() {
     const task = this.task();
     if (task) {
-      // this.taskForm.patchValue(task);
+      this.taskForm.patchValue({
+        ...task,
+        assignee: task.assignee.id
+      });
     }
   }
 
   onSubmit() {
     if (this.taskForm.valid) {
-      // this.save.emit(this.taskForm.getRawValue());
+      const {assignee, ...taskData} = this.taskForm.getRawValue();
+      this.save.emit({
+        taskData,
+        assigneeId: assignee
+      });
     }
   }
 
