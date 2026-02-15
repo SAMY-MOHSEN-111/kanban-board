@@ -25,7 +25,7 @@
       "id": "task-002",
       "title": "Update documentation",
       "description": "Review and update API documentation for v2.0 release",
-      "status": "done",
+      "status": "in_progress",
       "priority": "medium",
       "dueDate": "2026-02-12",
       "assignee": {
@@ -238,7 +238,7 @@
       "id": "task-009",
       "title": "Fix critical login bug",
       "description": "Resolved issue preventing users from logging in on mobile devices",
-      "status": "in_progress",
+      "status": "done",
       "priority": "high",
       "dueDate": "2026-02-06",
       "completedAt": "2026-02-07T20:49:43.760Z",

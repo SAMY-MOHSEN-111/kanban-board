@@ -1,16 +1,16 @@
-import {computed, DestroyRef, inject, Injectable} from '@angular/core';
+import {computed, inject, Injectable, linkedSignal} from '@angular/core';
 import {Task, TaskStatus} from '../models/task.model';
-import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
+import {toSignal} from '@angular/core/rxjs-interop';
 import {TasksRepository} from '@app/repositories/tasks.repository';
 import {Subject, switchMap} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class TasksService {
-  readonly #destroyRef = inject(DestroyRef);
   readonly #tasksRepository = inject(TasksRepository);
   readonly #load$ = new Subject<void>();
 
-  tasks = toSignal(this.#load$.pipe(switchMap(() => this.#tasksRepository.getAll())), {initialValue: []});
+  tasksSource = toSignal(this.#load$.pipe(switchMap(() => this.#tasksRepository.getAll())), {initialValue: []});
+  tasks = linkedSignal(() => this.tasksSource());
   todoTasks = computed(() => this.tasks().filter((task) => task.status === TaskStatus.TODO));
   inProgressTasks = computed(() => this.tasks().filter((task) => task.status === TaskStatus.IN_PROGRESS));
   doneTasks = computed(() => this.tasks().filter((task) => task.status === TaskStatus.DONE));
@@ -36,21 +36,15 @@ export class TasksService {
     this.#load$.next();
   }
 
-  getTaskById(taskId: string) {
-    return this.#tasksRepository.getById(taskId);
-  }
-
-  createTask(task: Task) {
-    this.#tasksRepository.create(task);
+  createTask(task: Partial<Task>) {
+    return this.#tasksRepository.create(task);
   }
 
   updateTask(taskId: string, task: Partial<Task>) {
-    return this.#tasksRepository.update(taskId, task)
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe();
+    return this.#tasksRepository.update(taskId, task);
   }
 
   deleteTask(taskId: string) {
-    this.#tasksRepository.delete(taskId);
+    return this.#tasksRepository.delete(taskId);
   }
 }

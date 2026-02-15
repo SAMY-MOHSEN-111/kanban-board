@@ -312,13 +312,14 @@ bootstrapApplication(AppComponent, {
 
 - Task filtering (by status, priority)
 - Task search functionality
-- Local storage persistence
 - Dark mode toggle
 - Task due dates
 - Task assignment to users
-- Export tasks to JSON/CSV
 - ❌ Unit tests (vitest)
+- Export tasks to JSON/CSV
 - E2E tests (Playwright)
+- 
+- Local storage persistence
 
 ---
 

@@ -17,7 +17,7 @@ import {TasksService} from '@app/services/tasks-service';
 export class Dashboard implements OnInit {
   readonly #tasksService = inject(TasksService);
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.#tasksService.load();
   }
 
@@ -83,7 +83,6 @@ export class Dashboard implements OnInit {
 
   lineChartData = computed<ChartData<'line'>>(() => {
     const {labels, numberOfEntries} = this.#tasksService.tasksOverTimeChartData();
-
     return {
       labels: labels || [],
       datasets: [

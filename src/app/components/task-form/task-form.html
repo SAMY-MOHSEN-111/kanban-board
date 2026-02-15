@@ -1,0 +1,99 @@
+<div class="fixed inset-0 bg-black/20 backdrop-blur-[2px] flex items-center justify-center z-50 p-4">
+  <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden transform transition-all">
+    <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+      <h2 class="text-xl font-bold text-gray-800">{{ task() ? 'Edit Task' : 'New Task' }}</h2>
+      <button (click)="onCancel()" class="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer">
+        <ng-icon name="heroXMarkSolid" size="28"></ng-icon>
+      </button>
+    </div>
+
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="p-6 space-y-5">
+      <div class="space-y-1">
+        <label for="title" class="block text-sm font-semibold text-gray-700">Title <span class="text-red-500">*</span></label>
+        <input
+          id="title"
+          type="text"
+          [formControl]="taskForm.controls.title"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+          placeholder="Enter task title"
+          [ngClass]="{'border-red-500 ring-1 ring-red-500': taskForm.controls.title.invalid && (taskForm.controls.title.touched || taskForm.controls.title.dirty)}"
+        />
+        @if (taskForm.controls.title.invalid && (taskForm.controls.title.touched || taskForm.controls.title.dirty)) {
+          <p class="text-xs text-red-500 mt-1">
+            @if (taskForm.controls.title.errors?.['required']) { Title is required. }
+            @if (taskForm.controls.title.errors?.['maxlength']) { Title cannot exceed 100 characters. }
+          </p>
+        }
+      </div>
+
+      <div class="space-y-1">
+        <label for="description" class="block text-sm font-semibold text-gray-700">Description</label>
+        <textarea
+          id="description"
+          [formControl]="taskForm.controls.description"
+          rows="3"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none"
+          placeholder="Enter task description"
+        ></textarea>
+        @if (taskForm.controls.description.invalid && (taskForm.controls.description.touched || taskForm.controls.description.dirty)) {
+          <p class="text-xs text-red-500 mt-1">Description cannot exceed 500 characters.</p>
+        }
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="space-y-1">
+          <label for="status" class="block text-sm font-semibold text-gray-700">Status</label>
+          <select
+            id="status"
+            [formControl]="taskForm.controls.status"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all bg-white"
+          >
+            <option [value]="TaskStatus.TODO">Todo</option>
+            <option [value]="TaskStatus.IN_PROGRESS">In Progress</option>
+            <option [value]="TaskStatus.DONE">Done</option>
+          </select>
+        </div>
+
+        <div class="space-y-1">
+          <label for="priority" class="block text-sm font-semibold text-gray-700">Priority</label>
+          <select
+            id="priority"
+            [formControl]="taskForm.controls.priority"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all bg-white"
+          >
+            <option [value]="TaskPriority.LOW">Low</option>
+            <option [value]="TaskPriority.MEDIUM">Medium</option>
+            <option [value]="TaskPriority.HIGH">High</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="space-y-1">
+        <label for="dueDate" class="block text-sm font-semibold text-gray-700">Due Date</label>
+        <input
+          type="date"
+          id="dueDate"
+          [formControl]="taskForm.controls.dueDate"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all bg-white"
+        />
+      </div>
+
+      <div class="flex justify-end space-x-3 pt-4 border-t border-gray-100">
+        <button
+          type="button"
+          (click)="onCancel()"
+          class="px-5 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors cursor-pointer"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          [disabled]="taskForm.invalid"
+          class="px-5 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg shadow-blue-200 cursor-pointer"
+        >
+          {{ task() ? 'Save Changes' : 'Create Task' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

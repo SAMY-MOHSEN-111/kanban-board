@@ -1,31 +1,50 @@
 <div class="container mx-auto">
-  <div class="flex items-center justify-between p-6">
+  <div class="flex items-center justify-between px-6 pt-6">
     <div class=" space-y-2">
       <h1 class="text-3xl font-extrabold text-gray-900 ">Tasks Board</h1>
       <p class="text-gray-600">Drag tasks between columns or create new ones.</p>
     </div>
-    <div>
-      <button>Add Task</button>
-    </div>
+    <button
+      (click)="onAddTask()"
+      class="self-start sm:self-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 sm:px-6 rounded-lg shadow-md transition-colors flex items-center cursor-pointer"
+    >
+      <ng-icon name="heroPlus" size="20"></ng-icon>
+      <span class="hidden sm:inline">Add Task</span>
+    </button>
   </div>
+
+  @if (showForm()) {
+    <app-task-form
+      [task]="selectedTask()"
+      (save)="onSaveTask($event)"
+      (cancel)="onCancelForm()"
+    />
+  }
+
   <div class="p-6 grid grid-cols-1 lg:grid-cols-2  xl:grid-cols-3 gap-6" cdkDropListGroup>
     <app-tasks-list
       [id]="TaskStatus.TODO"
       title="TODO"
       [tasks]="tasksService.todoTasks()"
       (taskDropped)="onTaskDropped($event)"
+      (taskEdit)="onEditTask($event)"
+      (taskDelete)="onDeleteTask($event)"
     />
     <app-tasks-list
       [id]="TaskStatus.IN_PROGRESS"
       title="In Progress"
       [tasks]="tasksService.inProgressTasks()"
       (taskDropped)="onTaskDropped($event)"
+      (taskEdit)="onEditTask($event)"
+      (taskDelete)="onDeleteTask($event)"
     />
     <app-tasks-list
       [id]="TaskStatus.DONE"
       title="Done"
       [tasks]="tasksService.doneTasks()"
       (taskDropped)="onTaskDropped($event)"
+      (taskEdit)="onEditTask($event)"
+      (taskDelete)="onDeleteTask($event)"
     />
   </div>
 </div>

@@ -13,10 +13,6 @@ export class TasksRepository {
     return this.#httpClient.get<Task[]>(this.#apiUrl);
   }
 
-  getById(id: string): Observable<Task> {
-    return this.#httpClient.get<Task>(`${this.#apiUrl}/${id}`);
-  }
-
   create(task: Partial<Task>): Observable<Task> {
     return this.#httpClient.post<Task>(this.#apiUrl, task);
   }

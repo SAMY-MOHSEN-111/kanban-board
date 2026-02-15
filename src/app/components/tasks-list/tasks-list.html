@@ -13,7 +13,14 @@
       (cdkDropListExited)="onDragExited()"
       class="custom-scrollbar min-h-25 p-2  rounded-lg max-h-150 overflow-y-auto space-y-4">
       @for (task of tasks(); track task.id) {
-        <app-task cdkDrag [cdkDragData]="task" class="block" [task]="task">
+        <app-task
+          cdkDrag
+          [cdkDragData]="task"
+          class="block"
+          [task]="task"
+          (edit)="taskEdit.emit($event)"
+          (remove)="taskDelete.emit($event)"
+        >
           <div *cdkDragPlaceholder class="bg-gray-200 border-2 border-dashed border-gray-400 h-36 rounded-md"></div>
         </app-task>
       } @empty {

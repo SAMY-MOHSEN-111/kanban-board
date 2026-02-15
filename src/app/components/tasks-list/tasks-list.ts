@@ -7,7 +7,7 @@ import {
   moveItemInArray,
   transferArrayItem
 } from '@angular/cdk/drag-drop';
-import {Task as TaskComponent} from '../task/task' ;
+import {TaskComponent as TaskComponent} from '../task/task.component' ;
 import {Task, TaskStatus} from '@app/models/task.model';
 
 @Component({
@@ -27,6 +27,8 @@ export class TasksList {
   title = input.required<string>();
   tasks = input.required<Task[]>();
   taskDropped = output<CdkDragDrop<Task[], Task[], Task>>();
+  taskEdit = output<Task>();
+  taskDelete = output<Task>();
   isDraggingOver = signal(true);
 
   onDragEntered() {
