@@ -1,10 +1,10 @@
 <div
   (click)="onEdit()"
-  class="group bg-white p-4 rounded-lg shadow-md space-y-2 min-h-46.25 hover:shadow-lg transition-shadow cursor-pointer"
+  class="group bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md space-y-2 min-h-46.25 hover:shadow-lg transition-shadow cursor-pointer"
 >
   <div>
     <div class="flex items-center justify-between">
-      <h3 class="text-lg font-bold mb-2 line-clamp-1">{{ task().title }}</h3>
+      <h3 class="text-lg font-bold mb-2 line-clamp-1 text-gray-900 dark:text-gray-100">{{ task().title }}</h3>
       <button
         (click)="onDelete($event)"
         class="text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
@@ -14,8 +14,8 @@
     </div>
     <div class="text-sm flex items-center justify-between">
       <span>
-        <span class="text-gray-500">{{ task().status | uppercase | removeNonAlphanumeric }}</span>
-        <span class="text-xs"> &bullet; </span>
+        <span class="text-gray-500 dark:text-gray-400">{{ task().status | uppercase | removeNonAlphanumeric }}</span>
+        <span class="text-xs dark:text-gray-400"> &bullet; </span>
         <span [ngClass]="priorityColor()">{{ task().priority | uppercase }}</span>
       </span>
       @if (isOverdue()) {
@@ -23,13 +23,13 @@
       }
     </div>
   </div>
-  <p class="text-gray-600 line-clamp-2">{{ task().description }}</p>
+  <p class="text-gray-600 dark:text-gray-300 line-clamp-2">{{ task().description }}</p>
 
   <div class="flex items-center space-x-2">
-    <div class="w-8 h-8 bg-purple-200 rounded-full flex items-center justify-center font-bold text-sm text-gray-600">
+    <div class="w-8 h-8 bg-purple-200 dark:bg-purple-700 rounded-full flex items-center justify-center font-bold text-sm text-gray-600 dark:text-purple-200">
       {{ task().assignee.avatar }}
     </div>
-    <span class="font-medium">{{ task().assignee.name }}</span>
+    <span class="font-medium text-gray-700 dark:text-gray-200">{{ task().assignee.name }}</span>
   </div>
   <ng-content select="ng-template[cdkDragPlaceholder]"></ng-content>
 </div>

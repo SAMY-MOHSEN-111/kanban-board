@@ -1,7 +1,17 @@
-<nav class="bg-[#110f0f] p-4">
-  <ul class="container mx-auto flex space-x-4">
-    <li routerLink="/dashboard" routerLinkActive="active" class="nav-bar-item">Dashboard</li>
-    <li routerLink="/kanban-board" routerLinkActive="active" class="nav-bar-item">Kanban Board</li>
-  </ul>
+<nav class="bg-[#110f0f] dark:bg-gray-800 p-4 shadow-md">
+  <div class="container mx-auto flex items-center justify-between">
+    <ul class="flex space-x-4">
+      <li routerLink="/dashboard" routerLinkActive="active" class="nav-bar-item">Dashboard</li>
+      <li routerLink="/kanban-board" routerLinkActive="active" class="nav-bar-item">Kanban Board</li>
+    </ul>
+    <button
+      (click)="toggleTheme()"
+      class="text-white hover:text-gray-300 transition-colors duration-200 focus:outline-none cursor-pointer">
+      @if (themeService.theme() === 'light') {
+        <ng-icon name="heroMoonSolid" size="20" ></ng-icon>
+      } @else {
+        <ng-icon name="heroSunSolid" size="28"></ng-icon>
+      }
+    </button>
+  </div>
 </nav>
-

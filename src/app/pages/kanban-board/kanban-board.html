@@ -1,8 +1,8 @@
 <div class="container mx-auto">
   <div class="flex items-center justify-between p-6">
     <div class=" space-y-2">
-      <h1 class="text-3xl font-extrabold text-gray-900 ">Tasks Board</h1>
-      <p class="text-gray-600">Drag tasks between columns or create new ones.</p>
+      <h1 class="text-3xl font-extrabold text-gray-900 dark:text-gray-100">Tasks Board</h1>
+      <p class="text-gray-600 dark:text-gray-400">Drag tasks between columns or create new ones.</p>
     </div>
     <button
       (click)="onAddTask()"
@@ -25,13 +25,13 @@
       type="text"
       [formControl]="searchControl"
       placeholder="Search tasks..."
-      class="w-full lg:max-w-md px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all bg-white"
+      class="w-full lg:max-w-md px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400"
     />
 
     <div class="w-full lg:w-[42.5%] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
       <select
         [formControl]="assigneeControl"
-        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all bg-white">
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100">
         <option value="">All Assignees</option>
         @for (assignee of assignees(); track assignee.id) {
           <option [value]="assignee.id">{{ assignee.name }}</option>
@@ -39,7 +39,7 @@
       </select>
       <select
         [formControl]="statusControl"
-        class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all bg-white">
+        class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100">
         <option value="">All Statuses</option>
         <option [value]="TaskStatus.TODO">Todo</option>
         <option [value]="TaskStatus.IN_PROGRESS">In Progress</option>
@@ -47,7 +47,7 @@
       </select>
       <select
         [formControl]="priorityControl"
-        class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all bg-white">
+        class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100">
         <option value="">All Priorities</option>
         <option [value]="TaskPriority.LOW">Low</option>
         <option [value]="TaskPriority.MEDIUM">Medium</option>

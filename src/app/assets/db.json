@@ -382,6 +382,23 @@
       },
       "createdAt": "2026-02-15T21:41:10.774Z",
       "updatedAt": "2026-02-15T21:42:17.932Z"
+    },
+    {
+      "id": "10a243f9-959f-4641-ad50-31f0141744eb",
+      "title": "Assign frontend enhancements to samy",
+      "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ",
+      "status": "done",
+      "priority": "high",
+      "dueDate": "2026-02-15",
+      "assignee": {
+        "id": "user-003",
+        "name": "Mike Johnson",
+        "avatar": "MJ",
+        "email": "mike.johnson@company.com",
+        "role": "Project Manager"
+      },
+      "createdAt": "2026-02-15T22:57:09.198Z",
+      "updatedAt": "2026-02-15T22:57:48.172Z"
     }
   ],
   "statistics": [
