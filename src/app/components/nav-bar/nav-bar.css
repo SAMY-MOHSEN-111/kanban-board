@@ -5,9 +5,9 @@
 }
 
 .nav-bar-item.active {
-  @apply bg-gray-700 text-white dark:bg-gray-900;
+  @apply bg-gray-700 text-[#FA87EE] dark:bg-gray-900;
 }
 
 .nav-bar-item:hover {
-  @apply bg-gray-600 text-white dark:bg-gray-700;
+  @apply bg-gray-600 text-[#FA87EE] dark:bg-gray-700;
 }
