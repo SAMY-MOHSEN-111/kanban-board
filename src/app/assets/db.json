@@ -27,7 +27,7 @@
       "description": "Review and update API documentation for v2.0 release",
       "status": "in_progress",
       "priority": "medium",
-      "dueDate": "2026-02-12",
+      "dueDate": "2026-02-28",
       "assignee": {
         "id": "user-002",
         "name": "Sarah Smith",
@@ -39,7 +39,7 @@
         "Documentation"
       ],
       "createdAt": "2026-02-04T20:49:43.760Z",
-      "updatedAt": "2026-02-06T20:49:43.760Z"
+      "updatedAt": "2026-02-15T19:54:00.990Z"
     },
     {
       "id": "task-003",

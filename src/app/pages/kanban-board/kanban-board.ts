@@ -1,12 +1,14 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, signal} from '@angular/core';
 import {TasksList} from '@app/components/tasks-list/tasks-list';
 import {CdkDragDrop, CdkDropListGroup} from '@angular/cdk/drag-drop';
 import {TasksService} from '@app/services/tasks-service';
 import {Task, TaskStatus} from '@app/models/task.model';
 import {TaskForm} from '@app/components/task-form/task-form';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {NgIcon, provideIcons} from '@ng-icons/core';
 import {heroPlus} from '@ng-icons/heroicons/outline';
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
+import {debounceTime, distinctUntilChanged} from 'rxjs';
 
 @Component({
   selector: 'app-kanban-board',
@@ -14,7 +16,8 @@ import {heroPlus} from '@ng-icons/heroicons/outline';
     TasksList,
     CdkDropListGroup,
     TaskForm,
-    NgIcon
+    NgIcon,
+    ReactiveFormsModule
   ],
   templateUrl: './kanban-board.html',
   styleUrl: './kanban-board.css',
@@ -25,11 +28,23 @@ export class KanbanBoard implements OnInit {
   readonly #destroyRef = inject(DestroyRef);
   readonly tasksService = inject(TasksService);
 
+  searchControl = new FormControl("", {nonNullable: true});
+  searchTerm = toSignal(this.searchControl.valueChanges.pipe(debounceTime(200), distinctUntilChanged()), {initialValue: ""});
+
+  filteredTasks = computed<Task[]>(() => this.tasksService.tasks().filter(task => this.#taskMatches(task)));
+  todoTasks = computed<Task[]>(() => this.filteredTasks().filter(task => task.status === TaskStatus.TODO));
+  inProgressTasks = computed<Task[]>(() => this.filteredTasks().filter(task => task.status === TaskStatus.IN_PROGRESS));
+  doneTasks = computed<Task[]>(() => this.filteredTasks().filter(task => task.status === TaskStatus.DONE));
+
   showForm = signal(false);
   selectedTask = signal<Task | null>(null);
 
   ngOnInit(): void {
     this.tasksService.load();
+  }
+
+  #taskMatches(task: Task): boolean {
+    return task.title.toLowerCase().includes(this.searchTerm()) || task.description?.toLowerCase().includes(this.searchTerm());
   }
 
   onTaskDropped($event: CdkDragDrop<Task[], Task[], Task>) {

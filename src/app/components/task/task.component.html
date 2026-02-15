@@ -1,20 +1,26 @@
 <div
   (click)="onEdit()"
-  class="group bg-white p-4 rounded-lg shadow-md space-y-2 min-h-36 hover:shadow-lg transition-shadow cursor-pointer">
+  class="group bg-white p-4 rounded-lg shadow-md space-y-2 min-h-36 hover:shadow-lg transition-shadow cursor-pointer"
+>
   <div>
     <div class="flex items-center justify-between">
       <h3 class="text-lg font-bold mb-2 line-clamp-1">{{ task().title }}</h3>
       <button
         (click)="onDelete($event)"
-        class=" p-1 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+        class="text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
       >
         <ng-icon name="heroTrash" size="20"></ng-icon>
       </button>
     </div>
-    <div class="text-sm">
-      <span class="text-gray-500">{{ task().status | uppercase | removeNonAlphanumeric }}</span>
-      <span class="text-xs"> &bullet; </span>
-      <span [ngClass]="priorityColor()">{{ task().priority | uppercase }}</span>
+    <div class="text-sm flex items-center justify-between">
+      <span>
+        <span class="text-gray-500">{{ task().status | uppercase | removeNonAlphanumeric }}</span>
+        <span class="text-xs"> &bullet; </span>
+        <span [ngClass]="priorityColor()">{{ task().priority | uppercase }}</span>
+      </span>
+      @if (isOverdue()) {
+        <ng-icon name="heroExclamationTriangle" size="20" color="red"></ng-icon>
+      }
     </div>
   </div>
   <p class="text-gray-600 line-clamp-2">{{ task().description }}</p>

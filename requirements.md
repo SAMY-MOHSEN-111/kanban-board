@@ -311,14 +311,14 @@ bootstrapApplication(AppComponent, {
 ## Bonus Features (Optional)
 
 - Task filtering (by status, priority)
-- Task search functionality
+- Task search functionality ✅
 - Dark mode toggle
-- Task due dates
+- Task due dates ✅
 - Task assignment to users
-- ❌ Unit tests (vitest)
+-  Unit tests (vitest)
 - Export tasks to JSON/CSV
-- E2E tests (Playwright)
 - 
+- E2E tests (Playwright)
 - Local storage persistence
 
 ---

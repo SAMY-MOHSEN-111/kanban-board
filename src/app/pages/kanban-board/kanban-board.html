@@ -1,5 +1,5 @@
 <div class="container mx-auto">
-  <div class="flex items-center justify-between px-6 pt-6">
+  <div class="flex items-center justify-between p-6">
     <div class=" space-y-2">
       <h1 class="text-3xl font-extrabold text-gray-900 ">Tasks Board</h1>
       <p class="text-gray-600">Drag tasks between columns or create new ones.</p>
@@ -20,12 +20,18 @@
       (cancel)="onCancelForm()"
     />
   }
-
+  <div class="w-full flex items-center justify-center sm:justify-start px-6">
+    <input
+      type="text"
+      [formControl]="searchControl"
+      placeholder="Search tasks..."
+      class="w-full max-w-md px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"/>
+  </div>
   <div class="p-6 grid grid-cols-1 lg:grid-cols-2  xl:grid-cols-3 gap-6" cdkDropListGroup>
     <app-tasks-list
       [id]="TaskStatus.TODO"
       title="TODO"
-      [tasks]="tasksService.todoTasks()"
+      [tasks]="todoTasks()"
       (taskDropped)="onTaskDropped($event)"
       (taskEdit)="onEditTask($event)"
       (taskDelete)="onDeleteTask($event)"
@@ -33,7 +39,7 @@
     <app-tasks-list
       [id]="TaskStatus.IN_PROGRESS"
       title="In Progress"
-      [tasks]="tasksService.inProgressTasks()"
+      [tasks]="inProgressTasks()"
       (taskDropped)="onTaskDropped($event)"
       (taskEdit)="onEditTask($event)"
       (taskDelete)="onDeleteTask($event)"
@@ -41,7 +47,7 @@
     <app-tasks-list
       [id]="TaskStatus.DONE"
       title="Done"
-      [tasks]="tasksService.doneTasks()"
+      [tasks]="doneTasks()"
       (taskDropped)="onTaskDropped($event)"
       (taskEdit)="onEditTask($event)"
       (taskDelete)="onDeleteTask($event)"

@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, computed, input, output} from '@angular/core';
 import {NgClass, UpperCasePipe} from '@angular/common';
-import {Task, TaskPriority} from '@app/models/task.model';
+import {Task, TaskPriority, TaskStatus} from '@app/models/task.model';
 import {RemoveNonAlphanumericPipe} from '@app/pipes/remove-non-alphanumeric-pipe';
 import {NgIcon, provideIcons} from '@ng-icons/core';
-import {heroTrash} from '@ng-icons/heroicons/outline';
+import {heroExclamationTriangle, heroTrash} from '@ng-icons/heroicons/outline';
 
 @Component({
   selector: 'app-task',
@@ -11,11 +11,11 @@ import {heroTrash} from '@ng-icons/heroicons/outline';
     UpperCasePipe,
     NgClass,
     RemoveNonAlphanumericPipe,
-    NgIcon
+    NgIcon,
   ],
   templateUrl: './task.component.html',
   styleUrl: './task.component.css',
-  viewProviders: [provideIcons({heroTrash})],
+  viewProviders: [provideIcons({heroExclamationTriangle, heroTrash})],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskComponent {
@@ -36,6 +36,8 @@ export class TaskComponent {
         return 'text-gray-600';
     }
   });
+
+  isOverdue = computed(() => new Date(this.task().dueDate) < new Date() && this.task().status != TaskStatus.DONE);
 
   onEdit() {
     this.edit.emit(this.task());
