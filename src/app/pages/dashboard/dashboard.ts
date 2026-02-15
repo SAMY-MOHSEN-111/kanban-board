@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, computed, inject, OnInit} from '@ang
 import {StatCard} from '@app/components/stat-card/stat-card';
 import {ChartCard} from '@app/components/chart-card/chart-card';
 import {ChartConfiguration, ChartData, ChartOptions} from 'chart.js';
-import {TasksService} from '@app/services/tasks-service';
+import {TasksService} from '@app/services/tasks.service';
 
 @Component({
   selector: 'app-dashboard',

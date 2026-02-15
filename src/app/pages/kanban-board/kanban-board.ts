@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, signal} from '@angular/core';
 import {TasksList} from '@app/components/tasks-list/tasks-list';
 import {CdkDragDrop, CdkDropListGroup} from '@angular/cdk/drag-drop';
-import {TasksService} from '@app/services/tasks-service';
+import {TasksService} from '@app/services/tasks.service';
 import {Task, TaskStatus} from '@app/models/task.model';
 import {TaskForm} from '@app/components/task-form/task-form';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
