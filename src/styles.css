@@ -1,6 +1,6 @@
 /* styles.css */
 @import "tailwindcss";
-@config "../tailwind.config.ts";
+@custom-variant dark (&:where(.dark, .dark *));
 
 html {
   font-family: 'Space Grotesk', sans-serif;

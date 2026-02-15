@@ -13,17 +13,10 @@ export class ThemeService {
       document.documentElement.classList.toggle('dark', current === 'dark');
       localStorage.setItem(this.#THEME_KEY, current);
     });
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => this.#handleSystemChange(e));
   }
 
   toggleTheme() {
-    this.theme.update(t => t === 'light' ? 'dark' : 'light');
-  }
-
-  #handleSystemChange(e: MediaQueryListEvent) {
-    if (!localStorage.getItem(this.#THEME_KEY)) {
-      this.theme.set(e.matches ? 'dark' : 'light');
-    }
+    this.theme.update(theme => theme === 'light' ? 'dark' : 'light');
   }
 
   #getInitialTheme(): Theme {
