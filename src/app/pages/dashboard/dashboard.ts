@@ -1,10 +1,11 @@
 import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
 import {StatCard} from '@app/components/stat-card/stat-card';
 import {ChartCard} from '@app/components/chart-card/chart-card';
-import {ChartConfiguration, ChartData, ChartOptions} from 'chart.js';
+import {ChartConfiguration, ChartData} from 'chart.js';
 import {TasksService} from '@app/services/tasks.service';
-import {toSignal} from '@angular/core/rxjs-interop';
 import {TaskStatus} from '@app/models/task.model';
+import {PIE_CHART_OPTIONS} from '@app/pages/dashboard/chart-options/pie-chart.options';
+import {LINE_CHART_OPTIONS} from '@app/pages/dashboard/chart-options/line-chart.options';
 
 @Component({
   selector: 'app-dashboard',
@@ -35,20 +36,6 @@ export class Dashboard {
     return {labels, numberOfEntries};
   });
 
-  pieChartOptions: ChartOptions<'pie'> = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: true,
-        position: 'bottom',
-      },
-      title: {
-        display: true,
-        text: 'Task Status Distribution'
-      }
-    }
-  };
 
   pieChartData = computed<ChartConfiguration<'pie'>['data']>(() => {
     return {
@@ -61,34 +48,6 @@ export class Dashboard {
       ],
     };
   });
-
-
-  lineChartOptions: ChartOptions<'line'> = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: true,
-        position: 'top',
-      },
-      title: {
-        display: true,
-        text: 'Created Tasks (Last 7 Days)'
-      }
-    },
-    scales: {
-      x: {
-        type: 'category',
-      },
-      y: {
-        beginAtZero: true,
-        title: {
-          display: true,
-          text: 'Number of Tasks'
-        }
-      }
-    }
-  };
 
   lineChartData = computed<ChartData<'line'>>(() => {
     const {labels, numberOfEntries} = this.tasksOverTimeChartData();
@@ -106,4 +65,7 @@ export class Dashboard {
       ],
     };
   });
+
+  protected readonly PIE_CHART_OPTIONS = PIE_CHART_OPTIONS;
+  protected readonly LINE_CHART_OPTIONS = LINE_CHART_OPTIONS;
 }

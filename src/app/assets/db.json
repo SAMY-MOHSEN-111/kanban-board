@@ -4,7 +4,7 @@
       "id": "task-001",
       "title": "Design new homepage layout",
       "description": "Create wireframes and mockups for the new homepage redesign with modern UI elements",
-      "status": "done",
+      "status": "in_progress",
       "priority": "medium",
       "dueDate": "2026-02-27",
       "assignee": {
@@ -25,7 +25,7 @@
       "id": "task-002",
       "title": "Update documentation",
       "description": "Review and update API documentation for v2.0 release",
-      "status": "todo",
+      "status": "in_progress",
       "priority": "medium",
       "dueDate": "2026-02-28",
       "assignee": {

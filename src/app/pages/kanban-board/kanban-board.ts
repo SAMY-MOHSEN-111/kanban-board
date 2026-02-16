@@ -84,7 +84,6 @@ export class KanbanBoard {
     );
   }
 
-
   onTaskDropped($event: CdkDragDrop<Task[], Task[], Task>) {
     const task = $event.item.data;
     const containerId = $event.container.id;
@@ -120,7 +119,6 @@ export class KanbanBoard {
     const currentTask = this.selectedTask();
     const tasksSnapshot = this.tasks.value();
 
-    // I need to add global error interceptor as an enhancement
     const assignee = await firstValueFrom(this.#assigneesService.getAssigneeById(assigneeId).pipe(finalize(() => this.showForm.set(false))));
 
     if (currentTask) {
