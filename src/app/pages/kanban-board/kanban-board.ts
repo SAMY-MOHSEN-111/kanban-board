@@ -6,7 +6,7 @@ import {Task, TaskPriority, TaskStatus} from '@app/models/task.model';
 import {TaskForm} from '@app/components/task-form/task-form';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {NgIcon, provideIcons} from '@ng-icons/core';
-import {heroPlus} from '@ng-icons/heroicons/outline';
+import {heroArrowDownCircle, heroPlus} from '@ng-icons/heroicons/outline';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, firstValueFrom} from 'rxjs';
 import {TaskSaveEvent} from '@app/types/task-form.type';
@@ -24,7 +24,7 @@ import {Assignee} from '@app/models/assignee.model';
   ],
   templateUrl: './kanban-board.html',
   styleUrl: './kanban-board.css',
-  viewProviders: [provideIcons({heroPlus})],
+  viewProviders: [provideIcons({heroPlus, heroArrowDownCircle})],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class KanbanBoard implements OnInit {
@@ -149,6 +149,10 @@ export class KanbanBoard implements OnInit {
 
   onCancelForm() {
     this.showForm.set(false);
+  }
+
+  onExportToJson() {
+    this.#tasksService.exportToJson();
   }
 
   protected readonly TaskStatus = TaskStatus;

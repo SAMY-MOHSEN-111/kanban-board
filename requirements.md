@@ -316,8 +316,8 @@ bootstrapApplication(AppComponent, {
 - Task due dates ✅
 - Task assignment to users ✅
 - Local storage persistence ✅
+- Export tasks to JSON/CSV ✅
 -  Unit tests (vitest)
-- Export tasks to JSON/CSV 
 - 
 - E2E tests (Playwright)
 

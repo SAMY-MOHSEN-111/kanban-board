@@ -47,4 +47,17 @@ export class TasksService {
   deleteTask(taskId: string) {
     return this.#tasksRepository.delete(taskId);
   }
+
+  exportToJson() {
+    const data = JSON.stringify(this.tasksSource(), null, 2);
+    this.#downloadFile(data, 'tasks.json', 'application/json');
+  }
+
+  #downloadFile(data: string, fileName: string, mimeType: string) {
+    const a = document.createElement('a');
+    const file = new Blob([data], {type: mimeType});
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
+  }
 }

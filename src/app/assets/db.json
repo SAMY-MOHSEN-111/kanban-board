@@ -4,7 +4,7 @@
       "id": "task-001",
       "title": "Design new homepage layout",
       "description": "Create wireframes and mockups for the new homepage redesign with modern UI elements",
-      "status": "todo",
+      "status": "in_progress",
       "priority": "high",
       "dueDate": "2026-02-09",
       "assignee": {
@@ -25,27 +25,27 @@
       "id": "task-002",
       "title": "Update documentation",
       "description": "Review and update API documentation for v2.0 release",
-      "status": "done",
+      "status": "in_progress",
       "priority": "medium",
       "dueDate": "2026-02-28",
       "assignee": {
-        "id": "user-002",
-        "name": "Sarah Smith",
-        "avatar": "SS",
-        "email": "sarah.smith@company.com",
-        "role": "Designer"
+        "id": "user-004",
+        "name": "Emily Davis",
+        "avatar": "ED",
+        "email": "emily.davis@company.com",
+        "role": "QA Engineer"
       },
       "tags": [
         "Documentation"
       ],
       "createdAt": "2026-02-04T20:49:43.760Z",
-      "updatedAt": "2026-02-15T19:54:00.990Z"
+      "updatedAt": "2026-02-16T01:27:27.993Z"
     },
     {
       "id": "task-003",
       "title": "Fix responsive design issues",
       "description": "Address layout problems on mobile and tablet devices",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "dueDate": "2026-02-10",
       "assignee": {
@@ -66,7 +66,7 @@
       "id": "task-004",
       "title": "Organize team meeting",
       "description": "Schedule and prepare agenda for quarterly planning session",
-      "status": "done",
+      "status": "in_progress",
       "priority": "low",
       "dueDate": "2026-02-14",
       "assignee": {
@@ -87,23 +87,23 @@
       "id": "task-015",
       "title": "Prepare Q4 budget report",
       "description": "Compile and analyze financial data for quarterly budget presentation",
-      "status": "todo",
+      "status": "in_progress",
       "priority": "high",
       "dueDate": "2026-02-05",
       "isOverdue": true,
       "assignee": {
-        "id": "user-002",
-        "name": "Sarah Smith",
-        "avatar": "SS",
-        "email": "sarah.smith@company.com",
-        "role": "Designer"
+        "id": "user-001",
+        "name": "John Doe",
+        "avatar": "JD",
+        "email": "john.doe@company.com",
+        "role": "Developer"
       },
       "tags": [
         "Finance",
         "Critical"
       ],
       "createdAt": "2026-01-22T20:49:43.760Z",
-      "updatedAt": "2026-02-07T20:49:43.760Z"
+      "updatedAt": "2026-02-16T08:29:44.697Z"
     },
     {
       "id": "task-016",
@@ -133,7 +133,7 @@
       "description": "Add JWT-based authentication system with refresh tokens",
       "status": "todo",
       "priority": "high",
-      "dueDate": "2026-02-10",
+      "dueDate": "2026-02-27",
       "assignee": {
         "id": "user-001",
         "name": "John Doe",
@@ -146,7 +146,7 @@
         "Security"
       ],
       "createdAt": "2026-01-31T20:49:43.760Z",
-      "updatedAt": "2026-02-07T20:49:43.760Z"
+      "updatedAt": "2026-02-16T08:36:34.162Z"
     },
     {
       "id": "task-006",
@@ -215,8 +215,8 @@
       "id": "task-017",
       "title": "Update payment gateway integration",
       "description": "Migrate to new payment provider API and update billing logic",
-      "status": "done",
-      "priority": "high",
+      "status": "in_progress",
+      "priority": "low",
       "dueDate": "2026-02-06",
       "isOverdue": true,
       "assignee": {
@@ -232,7 +232,7 @@
         "Payments"
       ],
       "createdAt": "2026-01-24T20:49:43.760Z",
-      "updatedAt": "2026-02-07T20:49:43.760Z"
+      "updatedAt": "2026-02-16T08:33:23.471Z"
     },
     {
       "id": "task-009",
@@ -304,7 +304,7 @@
       "id": "task-012",
       "title": "Refactor payment module",
       "description": "Clean up and optimize payment processing code",
-      "status": "todo",
+      "status": "in_progress",
       "priority": "medium",
       "dueDate": "2026-02-03",
       "completedAt": "2026-02-04T20:49:43.760Z",
@@ -348,7 +348,7 @@
       "id": "task-014",
       "title": "Update dependencies",
       "description": "Update all npm packages to latest stable versions",
-      "status": "in_progress",
+      "status": "done",
       "priority": "low",
       "dueDate": "2026-02-01",
       "completedAt": "2026-02-02T20:49:43.760Z",
@@ -365,23 +365,6 @@
       ],
       "createdAt": "2026-01-24T20:49:43.760Z",
       "updatedAt": "2026-02-02T20:49:43.760Z"
-    },
-    {
-      "id": "e42d5863-1e83-4381-b05d-e2f0f852ed75",
-      "title": "test1 ",
-      "description": "test1",
-      "status": "in_progress",
-      "priority": "low",
-      "dueDate": "2026-02-15",
-      "assignee": {
-        "id": "user-001",
-        "name": "John Doe",
-        "avatar": "JD",
-        "email": "john.doe@company.com",
-        "role": "Developer"
-      },
-      "createdAt": "2026-02-15T21:41:10.774Z",
-      "updatedAt": "2026-02-15T21:42:17.932Z"
     },
     {
       "id": "10a243f9-959f-4641-ad50-31f0141744eb",
