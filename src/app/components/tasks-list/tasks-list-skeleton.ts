@@ -11,9 +11,9 @@ import {TaskSkeleton} from '../task/task-skeleton';
         <div class="h-6 bg-gray-200 dark:bg-gray-700 rounded w-1/3"></div>
         <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/6"></div>
       </div>
-      <div class="space-y-4">
+      <div class="flex flex-col p-2 gap-4">
         @for (task of [1, 2, 3]; track task) {
-          <app-task-skeleton />
+          <app-task-skeleton/>
         }
       </div>
     </div>
