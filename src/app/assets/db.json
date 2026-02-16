@@ -4,28 +4,28 @@
       "id": "task-001",
       "title": "Design new homepage layout",
       "description": "Create wireframes and mockups for the new homepage redesign with modern UI elements",
-      "status": "in_progress",
-      "priority": "high",
-      "dueDate": "2026-02-09",
+      "status": "todo",
+      "priority": "low",
+      "dueDate": "2026-02-27",
       "assignee": {
-        "id": "user-003",
-        "name": "Mike Johnson",
-        "avatar": "MJ",
-        "email": "mike.johnson@company.com",
-        "role": "Project Manager"
+        "id": "user-004",
+        "name": "Emily Davis",
+        "avatar": "ED",
+        "email": "emily.davis@company.com",
+        "role": "QA Engineer"
       },
       "tags": [
         "Design",
         "Frontend"
       ],
       "createdAt": "2026-02-05T20:49:43.760Z",
-      "updatedAt": "2026-02-16T00:02:56.025Z"
+      "updatedAt": "2026-02-16T11:02:47.632Z"
     },
     {
       "id": "task-002",
       "title": "Update documentation",
       "description": "Review and update API documentation for v2.0 release",
-      "status": "in_progress",
+      "status": "todo",
       "priority": "medium",
       "dueDate": "2026-02-28",
       "assignee": {
@@ -66,7 +66,7 @@
       "id": "task-004",
       "title": "Organize team meeting",
       "description": "Schedule and prepare agenda for quarterly planning session",
-      "status": "in_progress",
+      "status": "todo",
       "priority": "low",
       "dueDate": "2026-02-14",
       "assignee": {
@@ -87,9 +87,9 @@
       "id": "task-015",
       "title": "Prepare Q4 budget report",
       "description": "Compile and analyze financial data for quarterly budget presentation",
-      "status": "in_progress",
+      "status": "todo",
       "priority": "high",
-      "dueDate": "2026-02-05",
+      "dueDate": "2026-03-13",
       "isOverdue": true,
       "assignee": {
         "id": "user-001",
@@ -103,7 +103,7 @@
         "Critical"
       ],
       "createdAt": "2026-01-22T20:49:43.760Z",
-      "updatedAt": "2026-02-16T08:29:44.697Z"
+      "updatedAt": "2026-02-16T10:50:55.656Z"
     },
     {
       "id": "task-016",
@@ -131,7 +131,7 @@
       "id": "task-005",
       "title": "Implement user authentication",
       "description": "Add JWT-based authentication system with refresh tokens",
-      "status": "todo",
+      "status": "in_progress",
       "priority": "high",
       "dueDate": "2026-02-27",
       "assignee": {
@@ -173,7 +173,7 @@
       "id": "task-007",
       "title": "Create API endpoints",
       "description": "Develop RESTful API endpoints for task management features",
-      "status": "todo",
+      "status": "in_progress",
       "priority": "high",
       "dueDate": "2026-02-09",
       "assignee": {
@@ -194,7 +194,7 @@
       "id": "task-008",
       "title": "Add dark mode support",
       "description": "Implement theme toggle with dark/light mode preferences",
-      "status": "todo",
+      "status": "in_progress",
       "priority": "medium",
       "dueDate": "2026-02-13",
       "assignee": {
@@ -260,7 +260,7 @@
       "id": "task-010",
       "title": "Setup CI/CD pipeline",
       "description": "Configured GitHub Actions for automated testing and deployment",
-      "status": "todo",
+      "status": "in_progress",
       "priority": "medium",
       "dueDate": "2026-02-16",
       "completedAt": "2026-02-06T20:49:43.760Z",
@@ -282,7 +282,7 @@
       "id": "task-011",
       "title": "Write unit tests",
       "description": "Add comprehensive unit tests for authentication module",
-      "status": "todo",
+      "status": "in_progress",
       "priority": "high",
       "dueDate": "2026-02-04",
       "completedAt": "2026-02-05T20:49:43.760Z",

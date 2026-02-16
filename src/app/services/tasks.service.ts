@@ -1,55 +1,32 @@
-import {computed, inject, Injectable, linkedSignal} from '@angular/core';
-import {Task, TaskStatus} from '../models/task.model';
+import {inject, Injectable} from '@angular/core';
+import {Task} from '../models/task.model';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {TasksRepository} from '@app/repositories/tasks.repository';
-import {Subject, switchMap} from 'rxjs';
+import {firstValueFrom, Observable} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class TasksService {
   readonly #tasksRepository = inject(TasksRepository);
-  readonly #load$ = new Subject<void>();
 
-  tasksSource = toSignal(this.#load$.pipe(switchMap(() => this.#tasksRepository.getAll())), {initialValue: []});
-  tasks = linkedSignal(() => this.tasksSource());
-  todoTasks = computed(() => this.tasks().filter((task) => task.status === TaskStatus.TODO));
-  inProgressTasks = computed(() => this.tasks().filter((task) => task.status === TaskStatus.IN_PROGRESS));
-  doneTasks = computed(() => this.tasks().filter((task) => task.status === TaskStatus.DONE));
-
-  tasksStats = computed(() => ({
-    total: this.tasks().length,
-    todo: this.todoTasks().length,
-    inProgress: this.inProgressTasks().length,
-    done: this.doneTasks().length,
-  }));
-
-  tasksOverTimeChartData = computed(() => {
-    const labels = Array.from({length: 7}, (_, i) => {
-      const date = new Date();
-      date.setDate(date.getDate() - (6 - i));
-      return date.toISOString().split('T')[0];
-    })
-    const numberOfEntries = labels.map(date => this.tasks().filter(task => task.createdAt.startsWith(date)).length);
-    return {labels, numberOfEntries};
-  });
-
-  load() {
-    this.#load$.next();
+  getAll(): Observable<Task[]> {
+    return this.#tasksRepository.getAll();
   }
 
-  createTask(task: Partial<Task>) {
+  createTask(task: Partial<Task>): Observable<Task> {
     return this.#tasksRepository.create(task);
   }
 
-  updateTask(taskId: string, task: Partial<Task>) {
+  updateTask(taskId: string, task: Partial<Task>): Observable<Task> {
     return this.#tasksRepository.update(taskId, task);
   }
 
-  deleteTask(taskId: string) {
+  deleteTask(taskId: string): Observable<void> {
     return this.#tasksRepository.delete(taskId);
   }
 
-  exportToJson() {
-    const data = JSON.stringify(this.tasksSource(), null, 2);
+  async exportToJson() {
+    const tasks = await firstValueFrom(this.#tasksRepository.getAll());
+    const data = JSON.stringify(tasks, null, 2);
     this.#downloadFile(data, 'tasks.json', 'application/json');
   }
 

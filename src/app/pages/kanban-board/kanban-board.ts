@@ -1,4 +1,12 @@
-import {ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, signal} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  linkedSignal,
+  signal
+} from '@angular/core';
 import {TasksList} from '@app/components/tasks-list/tasks-list';
 import {CdkDragDrop, CdkDropListGroup} from '@angular/cdk/drag-drop';
 import {TasksService} from '@app/services/tasks.service';
@@ -27,7 +35,7 @@ import {Assignee} from '@app/models/assignee.model';
   viewProviders: [provideIcons({heroPlus, heroArrowDownCircle})],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class KanbanBoard implements OnInit {
+export class KanbanBoard {
   readonly #destroyRef = inject(DestroyRef);
   readonly #tasksService = inject(TasksService);
   readonly #assigneesService = inject(AssigneesService);
@@ -44,7 +52,9 @@ export class KanbanBoard implements OnInit {
   statusControl = new FormControl("", {nonNullable: true});
   status = toSignal(this.statusControl.valueChanges, {initialValue: ""});
 
-  filteredTasks = computed<Task[]>(() => this.#tasksService.tasks().filter(task => this.#taskMatches(task)));
+  tasksSource = toSignal(this.#tasksService.getAll(), {initialValue: []});
+  tasks = linkedSignal(() => this.tasksSource());
+  filteredTasks = computed<Task[]>(() => this.tasks().filter(task => this.#taskMatches(task)));
   todoTasks = computed<Task[]>(() => this.filteredTasks().filter(task => task.status === TaskStatus.TODO));
   inProgressTasks = computed<Task[]>(() => this.filteredTasks().filter(task => task.status === TaskStatus.IN_PROGRESS));
   doneTasks = computed<Task[]>(() => this.filteredTasks().filter(task => task.status === TaskStatus.DONE));
@@ -53,10 +63,6 @@ export class KanbanBoard implements OnInit {
 
   showForm = signal(false);
   selectedTask = signal<Task | null>(null);
-
-  ngOnInit(): void {
-    this.#tasksService.load();
-  }
 
   #taskMatches(task: Task): boolean {
     const search = this.searchTerm().toLowerCase();
@@ -99,19 +105,19 @@ export class KanbanBoard implements OnInit {
 
   onDeleteTask(task: Task) {
     if (!confirm(`Are you sure you want to delete "${task.title}"?`)) return;
-    const tasksSnapshot = this.#tasksService.tasks();
-    this.#tasksService.tasks.update(tasks => tasks.filter(t => t.id !== task.id));
+    const tasksSnapshot = this.tasks();
+    this.tasks.update(tasks => tasks.filter(t => t.id !== task.id));
     this.#tasksService.deleteTask(task.id)
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe({
-        error: () => this.#tasksService.tasks.set(tasksSnapshot),
+        error: () => this.tasks.set(tasksSnapshot),
       });
   }
 
   async onSaveTask(event: TaskSaveEvent) {
     const {assigneeId, taskData} = event;
     const currentTask = this.selectedTask();
-    const tasksSnapshot = this.#tasksService.tasks();
+    const tasksSnapshot = this.tasks();
 
     const assignee = await firstValueFrom(this.#assigneesService.getAssigneeById(assigneeId));
     this.showForm.set(false);
@@ -126,11 +132,11 @@ export class KanbanBoard implements OnInit {
   #updateExistingTask(current: Task, data: Partial<Omit<Task, 'assignee'>>, assignee: Assignee, snapshot: Task[]) {
     const now = new Date().toISOString();
     const updatedTask = {...current, ...data, assignee, updatedAt: now};
-    this.#tasksService.tasks.update(tasks => tasks.map(task => task.id === current.id ? updatedTask : task));
+    this.tasks.update(tasks => tasks.map(task => task.id === current.id ? updatedTask : task));
     this.#tasksService.updateTask(current.id, updatedTask)
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe({
-        error: () => this.#tasksService.tasks.set(snapshot)
+        error: () => this.tasks.set(snapshot)
       });
   }
 
@@ -138,12 +144,12 @@ export class KanbanBoard implements OnInit {
     const now = new Date().toISOString();
     const tempId = crypto.randomUUID();
     const newTask = {...data, id: tempId, assignee, createdAt: now, updatedAt: now} as Task;
-    this.#tasksService.tasks.update(tasks => [newTask, ...tasks]);
+    this.tasks.update(tasks => [newTask, ...tasks]);
     this.#tasksService.createTask(newTask)
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe({
-        next: (serverTask) => this.#tasksService.tasks.update(tasks => tasks.map(task => task.id === tempId ? serverTask : task)),
-        error: () => this.#tasksService.tasks.set(snapshot)
+        next: (serverTask) => this.tasks.update(tasks => tasks.map(task => task.id === tempId ? serverTask : task)),
+        error: () => this.tasks.set(snapshot)
       });
   }
 
@@ -151,8 +157,8 @@ export class KanbanBoard implements OnInit {
     this.showForm.set(false);
   }
 
-  onExportToJson() {
-    this.#tasksService.exportToJson();
+  async onExportToJson() {
+    await this.#tasksService.exportToJson();
   }
 
   protected readonly TaskStatus = TaskStatus;
