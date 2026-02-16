@@ -6,7 +6,7 @@
     </ul>
     <button
       (click)="toggleTheme()"
-      class="text-white hover:text-gray-300 transition-colors duration-200 focus:outline-none cursor-pointer">
+      class="text-white flex items-center justify-center hover:text-gray-300 transition-colors duration-200 focus:outline-none cursor-pointer">
       @if (themeService.theme() === 'light') {
         <ng-icon name="heroMoonSolid" size="20" ></ng-icon>
       } @else {

@@ -22,11 +22,7 @@
 }
 
 .cdk-drop-list-dragging {
-  @apply bg-purple-200  transition-colors duration-200;
-}
-
-.dark .cdk-drop-list-dragging {
-  @apply dark:bg-gray-700;
+  @apply bg-gray-400/30 transition-colors duration-200;
 }
 
 .cdk-drag-animating {

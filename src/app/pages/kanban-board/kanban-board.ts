@@ -11,6 +11,7 @@ import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, firstValueFrom} from 'rxjs';
 import {TaskSaveEvent} from '@app/types/task-form.type';
 import {AssigneesService} from '@app/services/assignees.service';
+import {Assignee} from '@app/models/assignee.model';
 
 @Component({
   selector: 'app-kanban-board',
@@ -35,13 +36,13 @@ export class KanbanBoard implements OnInit {
   searchTerm = toSignal(this.searchControl.valueChanges.pipe(debounceTime(200), distinctUntilChanged()), {initialValue: ""});
 
   assigneeControl = new FormControl("", {nonNullable: true});
-  assignee = toSignal(this.assigneeControl.valueChanges, { initialValue: "" });
+  assignee = toSignal(this.assigneeControl.valueChanges, {initialValue: ""});
 
   priorityControl = new FormControl("", {nonNullable: true});
-  priority = toSignal(this.priorityControl.valueChanges, { initialValue: "" });
+  priority = toSignal(this.priorityControl.valueChanges, {initialValue: ""});
 
   statusControl = new FormControl("", {nonNullable: true});
-  status = toSignal(this.statusControl.valueChanges, { initialValue: "" });
+  status = toSignal(this.statusControl.valueChanges, {initialValue: ""});
 
   filteredTasks = computed<Task[]>(() => this.#tasksService.tasks().filter(task => this.#taskMatches(task)));
   todoTasks = computed<Task[]>(() => this.filteredTasks().filter(task => task.status === TaskStatus.TODO));
@@ -122,7 +123,7 @@ export class KanbanBoard implements OnInit {
     }
   }
 
-  #updateExistingTask(current: Task, data: any, assignee: any, snapshot: Task[]) {
+  #updateExistingTask(current: Task, data: Partial<Omit<Task, 'assignee'>>, assignee: Assignee, snapshot: Task[]) {
     const now = new Date().toISOString();
     const updatedTask = {...current, ...data, assignee, updatedAt: now};
     this.#tasksService.tasks.update(tasks => tasks.map(task => task.id === current.id ? updatedTask : task));
@@ -133,10 +134,10 @@ export class KanbanBoard implements OnInit {
       });
   }
 
-  #createNewTask(data: any, assignee: any, snapshot: Task[]) {
+  #createNewTask(data: Partial<Omit<Task, 'assignee'>>, assignee: Assignee, snapshot: Task[]) {
     const now = new Date().toISOString();
     const tempId = crypto.randomUUID();
-    const newTask: Task = {...data, id: tempId, assignee, createdAt: now, updatedAt: now};
+    const newTask = {...data, id: tempId, assignee, createdAt: now, updatedAt: now} as Task;
     this.#tasksService.tasks.update(tasks => [newTask, ...tasks]);
     this.#tasksService.createTask(newTask)
       .pipe(takeUntilDestroyed(this.#destroyRef))
