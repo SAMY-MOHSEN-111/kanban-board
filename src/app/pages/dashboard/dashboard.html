@@ -1,17 +1,32 @@
 <div class="container mx-auto">
   <div class="p-6 space-y-6">
     <h1 class="text-3xl font-extrabold text-gray-900 dark:text-gray-100">Dashboard Overview</h1>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <app-stat-card title="Total Tasks" cardColor="text-blue-600" [numberOfTasks]="total()"></app-stat-card>
-      <app-stat-card title="Todo" cardColor="text-red-500" [numberOfTasks]="todo()"></app-stat-card>
-      <app-stat-card title="In Progress" cardColor="text-yellow-500" [numberOfTasks]="inProgress()"></app-stat-card>
-      <app-stat-card title="Done" cardColor="text-green-600" [numberOfTasks]="done()"></app-stat-card>
-    </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <app-chart-card title="Tasks by Status" type="pie" [data]="pieChartData()" [options]="PIE_CHART_OPTIONS"/>
-      <app-chart-card title="Tasks Over Time" type="line" [data]="lineChartData()" [options]="LINE_CHART_OPTIONS"/>
-    </div>
+    @if (tasks.isLoading()) {
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        @for (i of [1, 2, 3, 4]; track i) {
+          <app-stat-card-skeleton />
+        }
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        @for (i of [1, 2]; track i) {
+          <app-chart-card-skeleton />
+        }
+      </div>
+    } @else {
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <app-stat-card title="Total Tasks" cardColor="text-blue-600" [numberOfTasks]="total()"></app-stat-card>
+        <app-stat-card title="Todo" cardColor="text-red-500" [numberOfTasks]="todo()"></app-stat-card>
+        <app-stat-card title="In Progress" cardColor="text-yellow-500" [numberOfTasks]="inProgress()"></app-stat-card>
+        <app-stat-card title="Done" cardColor="text-green-600" [numberOfTasks]="done()"></app-stat-card>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <app-chart-card title="Tasks by Status" type="pie" [data]="pieChartData()" [options]="PIE_CHART_OPTIONS"/>
+        <app-chart-card title="Tasks Over Time" type="line" [data]="lineChartData()" [options]="LINE_CHART_OPTIONS"/>
+      </div>
+    }
   </div>
 </div>
 

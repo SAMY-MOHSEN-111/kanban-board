@@ -64,29 +64,35 @@
   </div>
 
   <div class="p-6 grid grid-cols-1 lg:grid-cols-2  xl:grid-cols-3 gap-6" cdkDropListGroup>
-    <app-tasks-list
-      [id]="TaskStatus.TODO"
-      title="TODO"
-      [tasks]="todoTasks()"
-      (taskDropped)="onTaskDropped($event)"
-      (taskEdit)="onEditTask($event)"
-      (taskDelete)="onDeleteTask($event)"
-    />
-    <app-tasks-list
-      [id]="TaskStatus.IN_PROGRESS"
-      title="In Progress"
-      [tasks]="inProgressTasks()"
-      (taskDropped)="onTaskDropped($event)"
-      (taskEdit)="onEditTask($event)"
-      (taskDelete)="onDeleteTask($event)"
-    />
-    <app-tasks-list
-      [id]="TaskStatus.DONE"
-      title="Done"
-      [tasks]="doneTasks()"
-      (taskDropped)="onTaskDropped($event)"
-      (taskEdit)="onEditTask($event)"
-      (taskDelete)="onDeleteTask($event)"
-    />
+    @if (tasks.isLoading()) {
+      @for (list of [1, 2, 3]; track list) {
+        <app-tasks-list-skeleton />
+      }
+    } @else {
+      <app-tasks-list
+        [id]="TaskStatus.TODO"
+        title="TODO"
+        [tasks]="todoTasks()"
+        (taskDropped)="onTaskDropped($event)"
+        (taskEdit)="onEditTask($event)"
+        (taskDelete)="onDeleteTask($event)"
+      />
+      <app-tasks-list
+        [id]="TaskStatus.IN_PROGRESS"
+        title="In Progress"
+        [tasks]="inProgressTasks()"
+        (taskDropped)="onTaskDropped($event)"
+        (taskEdit)="onEditTask($event)"
+        (taskDelete)="onDeleteTask($event)"
+      />
+      <app-tasks-list
+        [id]="TaskStatus.DONE"
+        title="Done"
+        [tasks]="doneTasks()"
+        (taskDropped)="onTaskDropped($event)"
+        (taskEdit)="onEditTask($event)"
+        (taskDelete)="onDeleteTask($event)"
+      />
+    }
   </div>
 </div>

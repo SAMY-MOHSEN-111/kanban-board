@@ -7,6 +7,7 @@ import {
   signal
 } from '@angular/core';
 import {TasksList} from '@app/components/tasks-list/tasks-list';
+import {TasksListSkeleton} from '@app/components/tasks-list/tasks-list-skeleton';
 import {CdkDragDrop, CdkDropListGroup} from '@angular/cdk/drag-drop';
 import {TasksService} from '@app/services/tasks.service';
 import {Task, TaskPriority, TaskStatus} from '@app/models/task.model';
@@ -25,6 +26,7 @@ import {downloadFile} from '@app/utils/file.util';
   selector: 'app-kanban-board',
   imports: [
     TasksList,
+    TasksListSkeleton,
     CdkDropListGroup,
     TaskForm,
     NgIcon,

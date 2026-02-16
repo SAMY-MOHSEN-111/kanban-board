@@ -1,6 +1,8 @@
 import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
 import {StatCard} from '@app/components/stat-card/stat-card';
 import {ChartCard} from '@app/components/chart-card/chart-card';
+import {StatCardSkeleton} from '@app/components/stat-card/stat-card-skeleton';
+import {ChartCardSkeleton} from '@app/components/chart-card/chart-card-skeleton';
 import {ChartConfiguration, ChartData} from 'chart.js';
 import {TasksService} from '@app/services/tasks.service';
 import {TaskStatus} from '@app/models/task.model';
@@ -11,7 +13,9 @@ import {LINE_CHART_OPTIONS} from '@app/pages/dashboard/chart-options/line-chart.
   selector: 'app-dashboard',
   imports: [
     StatCard,
-    ChartCard
+    ChartCard,
+    StatCardSkeleton,
+    ChartCardSkeleton
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
