@@ -19,11 +19,11 @@ import {TaskStatus} from '@app/models/task.model';
 export class Dashboard {
   readonly #tasksService = inject(TasksService);
 
-  tasks = toSignal(this.#tasksService.getAll(), {initialValue: []});
-  total = computed(() => this.tasks().length);
-  todo = computed(() => this.tasks().filter((task) => task.status === TaskStatus.TODO).length);
-  inProgress = computed(() => this.tasks().filter((task) => task.status === TaskStatus.IN_PROGRESS).length);
-  done = computed(() => this.tasks().filter((task) => task.status === TaskStatus.DONE).length);
+  tasks = this.#tasksService.getAllResource();
+  total = computed(() => this.tasks.value().length);
+  todo = computed(() => this.tasks.value().filter((task) => task.status === TaskStatus.TODO).length);
+  inProgress = computed(() => this.tasks.value().filter((task) => task.status === TaskStatus.IN_PROGRESS).length);
+  done = computed(() => this.tasks.value().filter((task) => task.status === TaskStatus.DONE).length);
 
   tasksOverTimeChartData = computed(() => {
     const labels = Array.from({length: 7}, (_, i) => {
@@ -31,7 +31,7 @@ export class Dashboard {
       date.setDate(date.getDate() - (6 - i));
       return date.toISOString().split('T')[0];
     })
-    const numberOfEntries = labels.map(date => this.tasks().filter(task => task.createdAt.startsWith(date)).length);
+    const numberOfEntries = labels.map(date => this.tasks.value().filter(task => task.createdAt.startsWith(date)).length);
     return {labels, numberOfEntries};
   });
 

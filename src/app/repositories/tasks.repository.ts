@@ -1,6 +1,6 @@
 import {Observable} from "rxjs";
 import {Task} from "@app/models/task.model";
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, httpResource, HttpResourceRef} from '@angular/common/http';
 import {environment} from '@env/environment';
 import {inject, Injectable} from '@angular/core';
 
@@ -9,8 +9,8 @@ export class TasksRepository {
   readonly #apiUrl = `${environment.apiUrl}/tasks`;
   readonly #httpClient = inject(HttpClient);
 
-  getAll(): Observable<Task[]> {
-    return this.#httpClient.get<Task[]>(this.#apiUrl);
+  getAllResource(): HttpResourceRef<Task[]> {
+    return httpResource<Task[]>(() => this.#apiUrl, {defaultValue: []});
   }
 
   create(task: Partial<Task>): Observable<Task> {

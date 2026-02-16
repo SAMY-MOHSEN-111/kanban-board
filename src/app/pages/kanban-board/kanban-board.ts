@@ -4,7 +4,6 @@ import {
   computed,
   DestroyRef,
   inject,
-  linkedSignal,
   signal
 } from '@angular/core';
 import {TasksList} from '@app/components/tasks-list/tasks-list';
@@ -15,11 +14,12 @@ import {TaskForm} from '@app/components/task-form/task-form';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {NgIcon, provideIcons} from '@ng-icons/core';
 import {heroArrowDownCircle, heroPlus} from '@ng-icons/heroicons/outline';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {debounceTime, distinctUntilChanged, firstValueFrom} from 'rxjs';
+import {NonNullableFormBuilder, ReactiveFormsModule} from '@angular/forms';
+import {debounceTime, distinctUntilChanged, finalize, firstValueFrom} from 'rxjs';
 import {TaskSaveEvent} from '@app/types/task-form.type';
 import {AssigneesService} from '@app/services/assignees.service';
 import {Assignee} from '@app/models/assignee.model';
+import {downloadFile} from '@app/utils/file.util';
 
 @Component({
   selector: 'app-kanban-board',
@@ -39,22 +39,23 @@ export class KanbanBoard {
   readonly #destroyRef = inject(DestroyRef);
   readonly #tasksService = inject(TasksService);
   readonly #assigneesService = inject(AssigneesService);
+  readonly #fb = inject(NonNullableFormBuilder);
 
-  searchControl = new FormControl("", {nonNullable: true});
-  searchTerm = toSignal(this.searchControl.valueChanges.pipe(debounceTime(200), distinctUntilChanged()), {initialValue: ""});
+  searchControl = this.#fb.control("");
+  searchTerm = toSignal(this.searchControl.valueChanges
+    .pipe(debounceTime(200), distinctUntilChanged()), {initialValue: ""});
 
-  assigneeControl = new FormControl("", {nonNullable: true});
+  assigneeControl = this.#fb.control("");
   assignee = toSignal(this.assigneeControl.valueChanges, {initialValue: ""});
 
-  priorityControl = new FormControl("", {nonNullable: true});
+  priorityControl = this.#fb.control("");
   priority = toSignal(this.priorityControl.valueChanges, {initialValue: ""});
 
-  statusControl = new FormControl("", {nonNullable: true});
+  statusControl = this.#fb.control("");
   status = toSignal(this.statusControl.valueChanges, {initialValue: ""});
 
-  tasksSource = toSignal(this.#tasksService.getAll(), {initialValue: []});
-  tasks = linkedSignal(() => this.tasksSource());
-  filteredTasks = computed<Task[]>(() => this.tasks().filter(task => this.#taskMatches(task)));
+  tasks = this.#tasksService.getAllResource();
+  filteredTasks = computed<Task[]>(() => this.tasks.value().filter(task => this.#taskMatches(task)));
   todoTasks = computed<Task[]>(() => this.filteredTasks().filter(task => task.status === TaskStatus.TODO));
   inProgressTasks = computed<Task[]>(() => this.filteredTasks().filter(task => task.status === TaskStatus.IN_PROGRESS));
   doneTasks = computed<Task[]>(() => this.filteredTasks().filter(task => task.status === TaskStatus.DONE));
@@ -105,7 +106,7 @@ export class KanbanBoard {
 
   onDeleteTask(task: Task) {
     if (!confirm(`Are you sure you want to delete "${task.title}"?`)) return;
-    const tasksSnapshot = this.tasks();
+    const tasksSnapshot = this.tasks.value();
     this.tasks.update(tasks => tasks.filter(t => t.id !== task.id));
     this.#tasksService.deleteTask(task.id)
       .pipe(takeUntilDestroyed(this.#destroyRef))
@@ -117,10 +118,10 @@ export class KanbanBoard {
   async onSaveTask(event: TaskSaveEvent) {
     const {assigneeId, taskData} = event;
     const currentTask = this.selectedTask();
-    const tasksSnapshot = this.tasks();
+    const tasksSnapshot = this.tasks.value();
 
-    const assignee = await firstValueFrom(this.#assigneesService.getAssigneeById(assigneeId));
-    this.showForm.set(false);
+    // I need to add global error interceptor as an enhancement
+    const assignee = await firstValueFrom(this.#assigneesService.getAssigneeById(assigneeId).pipe(finalize(() => this.showForm.set(false))));
 
     if (currentTask) {
       this.#updateExistingTask(currentTask, taskData, assignee, tasksSnapshot);
@@ -157,8 +158,9 @@ export class KanbanBoard {
     this.showForm.set(false);
   }
 
-  async onExportToJson() {
-    await this.#tasksService.exportToJson();
+  onExportToJson() {
+    const data = JSON.stringify(this.tasks.value(), null, 2);
+    downloadFile(data, 'tasks.json', 'application/json');
   }
 
   protected readonly TaskStatus = TaskStatus;

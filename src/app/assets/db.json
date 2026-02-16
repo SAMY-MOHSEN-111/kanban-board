@@ -4,22 +4,22 @@
       "id": "task-001",
       "title": "Design new homepage layout",
       "description": "Create wireframes and mockups for the new homepage redesign with modern UI elements",
-      "status": "todo",
-      "priority": "low",
+      "status": "done",
+      "priority": "medium",
       "dueDate": "2026-02-27",
       "assignee": {
-        "id": "user-004",
-        "name": "Emily Davis",
-        "avatar": "ED",
-        "email": "emily.davis@company.com",
-        "role": "QA Engineer"
+        "id": "user-002",
+        "name": "Sarah Smith",
+        "avatar": "SS",
+        "email": "sarah.smith@company.com",
+        "role": "Designer"
       },
       "tags": [
         "Design",
         "Frontend"
       ],
       "createdAt": "2026-02-05T20:49:43.760Z",
-      "updatedAt": "2026-02-16T11:02:47.632Z"
+      "updatedAt": "2026-02-16T14:48:43.593Z"
     },
     {
       "id": "task-002",
@@ -45,9 +45,9 @@
       "id": "task-003",
       "title": "Fix responsive design issues",
       "description": "Address layout problems on mobile and tablet devices",
-      "status": "done",
+      "status": "in_progress",
       "priority": "high",
-      "dueDate": "2026-02-10",
+      "dueDate": "2026-02-18",
       "assignee": {
         "id": "user-004",
         "name": "Emily Davis",
@@ -60,7 +60,7 @@
         "Bug Fix"
       ],
       "createdAt": "2026-02-02T20:49:43.760Z",
-      "updatedAt": "2026-02-07T20:49:43.760Z"
+      "updatedAt": "2026-02-16T14:48:59.310Z"
     },
     {
       "id": "task-004",
@@ -382,6 +382,40 @@
       },
       "createdAt": "2026-02-15T22:57:09.198Z",
       "updatedAt": "2026-02-15T22:57:48.172Z"
+    },
+    {
+      "id": "93159ffd-870b-4374-b60a-a409b9c5feec",
+      "title": "hello",
+      "description": "ssss",
+      "status": "todo",
+      "priority": "low",
+      "dueDate": "2026-02-16",
+      "assignee": {
+        "id": "user-002",
+        "name": "Sarah Smith",
+        "avatar": "SS",
+        "email": "sarah.smith@company.com",
+        "role": "Designer"
+      },
+      "createdAt": "2026-02-16T14:30:57.647Z",
+      "updatedAt": "2026-02-16T14:30:57.647Z"
+    },
+    {
+      "id": "0d6dbc9b-d767-47cb-839c-5e796cda17be",
+      "title": "sss",
+      "description": "sss",
+      "status": "todo",
+      "priority": "low",
+      "dueDate": "2026-02-16",
+      "assignee": {
+        "id": "user-002",
+        "name": "Sarah Smith",
+        "avatar": "SS",
+        "email": "sarah.smith@company.com",
+        "role": "Designer"
+      },
+      "createdAt": "2026-02-16T14:37:27.723Z",
+      "updatedAt": "2026-02-16T14:37:27.723Z"
     }
   ],
   "statistics": [

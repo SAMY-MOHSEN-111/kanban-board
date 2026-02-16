@@ -1,15 +1,15 @@
 import {inject, Injectable} from '@angular/core';
 import {Task} from '../models/task.model';
-import {toSignal} from '@angular/core/rxjs-interop';
 import {TasksRepository} from '@app/repositories/tasks.repository';
-import {firstValueFrom, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
+import {HttpResourceRef} from '@angular/common/http';
 
 @Injectable({providedIn: 'root'})
 export class TasksService {
   readonly #tasksRepository = inject(TasksRepository);
 
-  getAll(): Observable<Task[]> {
-    return this.#tasksRepository.getAll();
+  getAllResource(): HttpResourceRef<Task[]> {
+    return this.#tasksRepository.getAllResource();
   }
 
   createTask(task: Partial<Task>): Observable<Task> {
@@ -22,19 +22,5 @@ export class TasksService {
 
   deleteTask(taskId: string): Observable<void> {
     return this.#tasksRepository.delete(taskId);
-  }
-
-  async exportToJson() {
-    const tasks = await firstValueFrom(this.#tasksRepository.getAll());
-    const data = JSON.stringify(tasks, null, 2);
-    this.#downloadFile(data, 'tasks.json', 'application/json');
-  }
-
-  #downloadFile(data: string, fileName: string, mimeType: string) {
-    const a = document.createElement('a');
-    const file = new Blob([data], {type: mimeType});
-    a.href = URL.createObjectURL(file);
-    a.download = fileName;
-    a.click();
   }
 }
