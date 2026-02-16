@@ -317,7 +317,7 @@ bootstrapApplication(AppComponent, {
 - Task assignment to users ✅
 - Local storage persistence ✅
 -  Unit tests (vitest)
-- Export tasks to JSON/CSV
+- Export tasks to JSON/CSV 
 - 
 - E2E tests (Playwright)
 

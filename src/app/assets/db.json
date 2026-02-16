@@ -8,18 +8,18 @@
       "priority": "high",
       "dueDate": "2026-02-09",
       "assignee": {
-        "id": "user-004",
-        "name": "Emily Davis",
-        "avatar": "ED",
-        "email": "emily.davis@company.com",
-        "role": "QA Engineer"
+        "id": "user-003",
+        "name": "Mike Johnson",
+        "avatar": "MJ",
+        "email": "mike.johnson@company.com",
+        "role": "Project Manager"
       },
       "tags": [
         "Design",
         "Frontend"
       ],
       "createdAt": "2026-02-05T20:49:43.760Z",
-      "updatedAt": "2026-02-15T22:03:47.046Z"
+      "updatedAt": "2026-02-16T00:02:56.025Z"
     },
     {
       "id": "task-002",
